@@ -5,7 +5,8 @@
     --primary-blue: #2196F3;
     --disabled-gray: #ccc;
     --arrow-green: #4CAF50;
-    --highlight-yellow: yellow; /* Requirement 7a */
+    --highlight-yellow: yellow;
+    --submit-orange: orange; /* Requirement 7b */
 }
 
 body { font-family: Arial, sans-serif; background-color: var(--bg-color); padding: 20px; }
@@ -14,18 +15,24 @@ table { width: 100%; border-collapse: collapse; margin-top: 20px; }
 th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
 th { background-color: #f2f2f2; }
 
-/* Requirement 23: Row background color changed to Yellow on selection */
-.selected-row {
-    background-color: var(--highlight-yellow) !important;
-}
-
+.selected-row { background-color: var(--highlight-yellow) !important; }
 .dropDownRow { display: none; background-color: #f9f9f9; }
 .arrow { color: var(--arrow-green); cursor: pointer; }
-
-/* Requirement 43: DELETE and EDIT buttons hidden by default */
 .manage-col { display: none; }
 
-#submitAwards:disabled { background-color: var(--disabled-gray); color: #666; cursor: not-allowed; }
+/* Requirement 9: Grayed out state */
+#submitAwards:disabled { 
+    background-color: var(--disabled-gray); 
+    color: #666; 
+    cursor: not-allowed; 
+}
 
-button { padding: 10px 15px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; }
+/* Requirement 7b: Orange active state */
+.submit-active {
+    background-color: var(--submit-orange) !important;
+    color: white;
+    cursor: pointer;
+}
+
+button { padding: 10px 15px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; transition: background 0.3s; }
 #addStudent { background-color: var(--primary-blue); color: white; }
