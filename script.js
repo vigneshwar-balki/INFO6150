@@ -18,23 +18,34 @@ function updateSubmitButton() {
     }
 }
 
-// Requirement 8: Delete Functionality
 tableBody.addEventListener("click", (e) => {
+    const row = e.target.closest("tr");
+    
+    // Requirement 11 & 44: Toggle Expand/Collapse (Arrow Click)
+    if (e.target.classList.contains("arrow")) {
+        const detailsRow = row.nextElementSibling;
+        detailsRow.style.display = (detailsRow.style.display === "table-row") ? "none" : "table-row";
+    }
+
+    // Requirement 8: Delete logic
     if (e.target.classList.contains("deleteBtn")) {
-        const row = e.target.closest("tr");
         const detailsRow = row.nextElementSibling;
         const studentName = row.cells[1].innerText;
-
         row.remove();
         detailsRow.remove();
-
-        // Requirement 28: Success Message
         alert(`${studentName} Record deleted successfully`);
-        
-        // Refresh UI states
         const anyChecked = tableBody.querySelectorAll('input[type="checkbox"]:checked').length > 0;
         toggleActionColumns(anyChecked);
         updateSubmitButton();
+    }
+
+    // Requirement 9: Edit logic (Prompt)
+    if (e.target.classList.contains("editBtn")) {
+        const studentName = row.cells[1].innerText;
+        const result = prompt(`Edit details of ${studentName}`, ""); // Requirement 30, 31, 32
+        if (result !== null && result.trim() !== "") {
+            alert(`${studentName} data updated successfully`); // Requirement 37
+        }
     }
 });
 
@@ -64,8 +75,6 @@ addBtn.addEventListener("click", () => {
     try {
         const rows = tableBody.querySelectorAll("tr:not(.dropDownRow)");
         let lastStudentNum = 0;
-        
-        // Requirement 5c & 14: Logic to determine next student number
         if (rows.length > 0) {
             const lastRowText = rows[rows.length - 1].cells[1].innerText;
             lastStudentNum = parseInt(lastRowText.split(" ")[1]);
