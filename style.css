@@ -5,6 +5,7 @@
     --primary-blue: #2196F3;
     --disabled-gray: #ccc;
     --arrow-green: #4CAF50;
+    --highlight-yellow: yellow; /* Requirement 7a */
 }
 
 body { font-family: Arial, sans-serif; background-color: var(--bg-color); padding: 20px; }
@@ -13,8 +14,15 @@ table { width: 100%; border-collapse: collapse; margin-top: 20px; }
 th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
 th { background-color: #f2f2f2; }
 
+/* Requirement 23: Row background color changed to Yellow on selection */
+.selected-row {
+    background-color: var(--highlight-yellow) !important;
+}
+
 .dropDownRow { display: none; background-color: #f9f9f9; }
 .arrow { color: var(--arrow-green); cursor: pointer; }
+
+/* Requirement 43: DELETE and EDIT buttons hidden by default */
 .manage-col { display: none; }
 
 #submitAwards:disabled { background-color: var(--disabled-gray); color: #666; cursor: not-allowed; }
