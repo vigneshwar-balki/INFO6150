@@ -7,7 +7,6 @@ function toggleActionColumns(show) {
     cols.forEach(col => { col.style.display = show ? "table-cell" : "none"; });
 }
 
-// Requirement 7b & 10b: Update Submit button state
 function updateSubmitButton() {
     const checkedCount = tableBody.querySelectorAll('input[type="checkbox"]:checked').length;
     if (checkedCount > 0) {
@@ -18,6 +17,26 @@ function updateSubmitButton() {
         submitBtn.classList.remove("submit-active");
     }
 }
+
+// Requirement 8: Delete Functionality
+tableBody.addEventListener("click", (e) => {
+    if (e.target.classList.contains("deleteBtn")) {
+        const row = e.target.closest("tr");
+        const detailsRow = row.nextElementSibling;
+        const studentName = row.cells[1].innerText;
+
+        row.remove();
+        detailsRow.remove();
+
+        // Requirement 28: Success Message
+        alert(`${studentName} Record deleted successfully`);
+        
+        // Refresh UI states
+        const anyChecked = tableBody.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+        toggleActionColumns(anyChecked);
+        updateSubmitButton();
+    }
+});
 
 tableBody.addEventListener("change", (e) => {
     if (e.target.type === "checkbox") {
@@ -37,15 +56,16 @@ tableBody.addEventListener("change", (e) => {
 
         const anyChecked = tableBody.querySelectorAll('input[type="checkbox"]:checked').length > 0;
         toggleActionColumns(anyChecked);
-        updateSubmitButton(); // Call button state management
+        updateSubmitButton();
     }
 });
 
-// From Commit 3: Add New Student
 addBtn.addEventListener("click", () => {
     try {
         const rows = tableBody.querySelectorAll("tr:not(.dropDownRow)");
         let lastStudentNum = 0;
+        
+        // Requirement 5c & 14: Logic to determine next student number
         if (rows.length > 0) {
             const lastRowText = rows[rows.length - 1].cells[1].innerText;
             lastStudentNum = parseInt(lastRowText.split(" ")[1]);
@@ -72,7 +92,7 @@ addBtn.addEventListener("click", () => {
         tableBody.appendChild(row);
         tableBody.appendChild(detailsRow);
         alert(`Student ${nextId} Record added successfully`);
-        updateSubmitButton(); // Ensure button state reflects new unselected row
+        updateSubmitButton();
     } catch (error) {
         alert("Record addition failed");
     }
