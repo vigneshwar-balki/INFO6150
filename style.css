@@ -1,78 +1,83 @@
 :root {
-    --bg-color: #f8f9fa;
+    --bg-color: #f4f7f6;
     --text-color: #333;
     --card-bg: #ffffff;
-    --border-color: #dee2e6;
-    --primary-blue: #007bff;
-    --disabled-gray: #6c757d;
+    --border-color: #ddd;
+    --primary-blue: #2196F3;
+    --disabled-gray: #ccc;
+    --arrow-green: #4CAF50;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Arial, sans-serif;
     background-color: var(--bg-color);
-    color: var(--text-color);
     margin: 0;
     padding: 20px;
-    display: flex;
-    justify-content: center;
 }
 
 .container {
-    width: 90%;
-    max-width: 1200px;
+    max-width: 1000px;
+    margin: auto;
     background: var(--card-bg);
-    padding: 30px;
+    padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
-
-header {
-    margin-bottom: 20px;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
 }
 
 th {
     background-color: #f2f2f2;
-    padding: 12px;
-    border-bottom: 2px solid var(--border-color);
-    text-align: left;
 }
 
-/* Requirement 9: Submit button styling */
+/* Requirement 8: Hide expandable rows on load */
+.dropDownRow {
+    display: none;
+    background-color: #f9f9f9;
+}
+
+/* Requirement 4: Arrow styling */
+.arrow {
+    color: var(--arrow-green);
+    cursor: pointer;
+}
+
+/* Requirement 43: Hide dynamic columns by default */
+.manage-col {
+    display: none;
+}
+
+/* Requirement 9: Disabled submit button styling */
 #submitAwards:disabled {
     background-color: var(--disabled-gray);
-    opacity: 0.6;
+    color: #666;
     cursor: not-allowed;
-    color: white;
+    border: 1px solid #999;
 }
 
 .controls {
-    display: flex;
-    gap: 15px;
+    margin-top: 20px;
 }
 
 button {
-    padding: 10px 20px;
-    border: none;
+    padding: 10px 15px;
     border-radius: 4px;
-    cursor: pointer;
+    border: none;
     font-weight: bold;
-    transition: background 0.3s ease;
+    cursor: pointer;
 }
 
 #addStudent {
     background-color: var(--primary-blue);
     color: white;
-}
-
-/* Requirement 43: Hide columns by default */
-.manage-col {
-    display: none;
 }
