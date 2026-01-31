@@ -1,78 +1,35 @@
 :root {
-    --bg-color: #f8f9fa;
-    --text-color: #333;
-    --card-bg: #ffffff;
-    --border-color: #dee2e6;
-    --primary-blue: #007bff;
-    --disabled-gray: #6c757d;
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --border-color: #333;
+    --primary-blue: #3d8bfd;
+    --disabled-gray: #444;
+    --highlight-yellow: #fbc02d; 
+    --submit-orange: #ff9800;    
+    --arrow-green: #4caf50;   
 }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    margin: 0;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-}
+body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); padding: 40px; }
+.container { max-width: 1150px; margin: auto; background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); }
 
-.container {
-    width: 90%;
-    max-width: 1200px;
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+th, td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
 
-header {
-    margin-bottom: 20px;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 10px;
-}
+/*  Highlight row yellow on selection  */
+.selected-row { background-color: var(--highlight-yellow) !important; color: #000; }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
+/*  Collapsed rows by default  */
+.dropDownRow { display: none; background-color: #2a2a2a; color: #bbb; }
+.arrow { color: var(--arrow-green); cursor: pointer; }
+.manage-col { display: none; } /* Requirement 43  */
 
-th {
-    background-color: #f2f2f2;
-    padding: 12px;
-    border-bottom: 2px solid var(--border-color);
-    text-align: left;
-}
+/*  Disabled submit button */
+#submitAwards:disabled { background-color: var(--disabled-gray); color: #777; cursor: not-allowed; }
+/*  Active orange button  */
+.submit-active { background-color: var(--submit-orange) !important; color: #000; cursor: pointer; }
 
-/* Requirement 9: Submit button styling */
-#submitAwards:disabled {
-    background-color: var(--disabled-gray);
-    opacity: 0.6;
-    cursor: not-allowed;
-    color: white;
-}
-
-.controls {
-    display: flex;
-    gap: 15px;
-}
-
-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s ease;
-}
-
-#addStudent {
-    background-color: var(--primary-blue);
-    color: white;
-}
-
-/* Requirement 43: Hide columns by default */
-.manage-col {
-    display: none;
-}
+button { padding: 12px 24px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+#addStudent { background-color: var(--primary-blue); color: white; }
+.deleteBtn { background-color: #cf6679; color: #000; margin-right: 8px; }
+.editBtn { background-color: #03dac6; color: #000; }
