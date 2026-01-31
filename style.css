@@ -1,0 +1,78 @@
+:root {
+    --bg-color: #f8f9fa;
+    --text-color: #333;
+    --card-bg: #ffffff;
+    --border-color: #dee2e6;
+    --primary-blue: #007bff;
+    --disabled-gray: #6c757d;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+header {
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th {
+    background-color: #f2f2f2;
+    padding: 12px;
+    border-bottom: 2px solid var(--border-color);
+    text-align: left;
+}
+
+/* Requirement 9: Submit button styling */
+#submitAwards:disabled {
+    background-color: var(--disabled-gray);
+    opacity: 0.6;
+    cursor: not-allowed;
+    color: white;
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+#addStudent {
+    background-color: var(--primary-blue);
+    color: white;
+}
+
+/* Requirement 43: Hide columns by default */
+.manage-col {
+    display: none;
+}
