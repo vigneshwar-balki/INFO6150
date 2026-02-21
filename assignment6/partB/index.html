@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" data-mdb-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Stopwatch - Assignment 6</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../Part_A_Calculator/style.css"> <style>
+        #timerDisplay { font-size: 5rem; font-weight: 800; color: #3b71ca; }
+        .history-item { background: rgba(255,255,255,0.05); border-left: 5px solid #3b71ca; margin-bottom: 10px; padding: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container py-5 text-center">
+        <h1 id="timerDisplay" class="mb-4">00:00:00</h1>
+        
+        <div class="card p-4 mx-auto shadow-5 mb-5" style="max-width: 600px;">
+            <div class="row g-3">
+                <div class="col-md-6 text-start">
+                    <label class="form-label small">Event Date</label>
+                    <input type="date" id="eventDate" class="form-control">
+                    <div id="dateError" class="error-msg"></div>
+                </div>
+                <div class="col-md-6 text-start">
+                    <label class="form-label small">What are you timing?</label>
+                    <input type="text" id="eventName" class="form-control" placeholder="e.g. Study Session">
+                    <div id="nameError" class="error-msg"></div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-center gap-2 mt-4">
+                <button id="startBtn" class="btn btn-success px-4">Start</button>
+                <button id="pauseBtn" class="btn btn-warning px-4" disabled>Pause</button>
+                <button id="stopBtn" class="btn btn-danger px-4" disabled>Stop & Save</button>
+                <button id="resetBtn" class="btn btn-outline-light px-4">Reset</button>
+            </div>
+        </div>
+
+        <div class="col-md-8 mx-auto text-start">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h3 class="fw-bold">History</h3>
+                <div class="text-end">
+                    <span class="badge badge-primary p-2 me-2">Sessions: <span id="totalCount">0</span></span>
+                    <span class="badge badge-info p-2">Total Time: <span id="totalTime">00:00:00</span></span>
+                </div>
+            </div>
+            <div id="historyList">
+                </div>
+            <div id="noHistory" class="text-center text-muted py-4">No sessions recorded yet.</div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
