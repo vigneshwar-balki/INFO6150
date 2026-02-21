@@ -1,0 +1,11 @@
+/* shared dark mode overrides and form styling */
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+.card {
+    border-radius: 8px;
+}
+.form-text.text-danger {
+    min-height: 1.5em;
+}
