@@ -1,18 +1,53 @@
-/* shared dark mode overrides and form styling */
-body {
-    background-color: #121212;
-    color: #e0e0e0;
-    /* soft dark theme accent colors */
-}
-.card {
-    border-radius: 8px;
+:root {
+    --primary: #3b71ca;
+    --error: #ff5252;
+    --bg: #0a0a0a;
 }
 
-/* extra depth for login card */
-.shadow-lg {
-    box-shadow: 0 0 1rem rgba(0,0,0,0.7) !important;
+body {
+    background: radial-gradient(circle at center, #1e2a38 0%, var(--bg) 100%);
+    color: #f8f9fa;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
 }
-.form-text.text-danger {
-    min-height: 1.5em;
-    color: #ff6b6b; /* softer red for errors */
+
+.card {
+    background: rgba(30, 30, 30, 0.9);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+}
+
+.form-control:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 8px rgba(59, 113, 202, 0.4) !important;
+}
+
+.error-msg {
+    color: var(--error);
+    font-size: 0.85rem;
+    min-height: 1.2rem;
+    margin-top: 4px;
+}
+
+.test-credentials {
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 0.8rem;
+    border-left: 3px solid var(--primary);
+}
+
+.result-display {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00e676 !important;
+    text-align: center;
 }

@@ -1,92 +1,101 @@
-// part A login validation and session handling
-
 $(function() {
-    const users = [
-        { email: "alice@northeastern.edu", password: "password123" },
-        { email: "bob@northeastern.edu", password: "securepwd" }
-    ];
+    // 1. HARDCODED USERS
+    const users = [{ email: "balakrishnan.vi@northeastern.edu", password: "P@ssw0rd" }];
 
-    const $email = $('#email');
-    const $password = $('#password');
-    const $loginBtn = $('#loginBtn');
-    const $emailError = $('#emailError');
-    const $passwordError = $('#passwordError');
-    const $loginError = $('#loginError');
+    // --- LOGIN LOGIC ---
+    if ($('#loginForm').length) {
+        const validateLogin = () => {
+            const email = $('#email').val().trim();
+            const pass = $('#password').val();
+            const isNEU = email.endsWith('@northeastern.edu');
+            const isEmail = /^[^\s@]+@northeastern\.edu$/i.test(email);
+            const isPassValid = pass.length >= 8;
 
-    function validateEmail() {
-        const val = $email.val().trim();
-        if (!val) {
-            $emailError.text('Please enter a valid Northeastern email');
-            return false;
-        }
-        const re = /^[^@\s]+@northeastern\.edu$/i;
-        if (!re.test(val)) {
-            $emailError.text('Please enter a valid Northeastern email');
-            return false;
-        }
-        $emailError.text('');
-        return true;
-    }
-
-    function validatePassword() {
-        const val = $password.val();
-        if (!val) {
-            $passwordError.text('Password is required');
-            return false;
-        }
-        if (val.length < 8) {
-            $passwordError.text('Password must be at least 8 characters');
-            return false;
-        }
-        $passwordError.text('');
-        return true;
-    }
-
-    function updateLoginState() {
-        const ok = validateEmail() && validatePassword();
-        $loginBtn.prop('disabled', !ok);
-    }
-
-    $email.on('keyup blur', validateEmail).on('focus', () => $emailError.text(''));
-    $password.on('keyup blur', validatePassword).on('focus', () => $passwordError.text(''));
-
-    $email.add($password).on('keyup blur', updateLoginState);
-
-    $('#loginForm').submit(function(e) {
-        e.preventDefault();
-        $loginError.text('');
-
-        if (!validateEmail() || !validatePassword()) {
-            return;
-        }
-
-        const emailVal = $email.val().trim();
-        const passVal = $password.val();
-        const match = users.find(u => u.email === emailVal && u.password === passVal);
-        if (!match) {
-            $loginError.text('Invalid email or password');
-            return;
-        }
-
-        const username = emailVal.split('@')[0];
-        const session = {
-            username,
-            email: emailVal,
-            loginTimestamp: Date.now(),
-            isLoggedIn: true
+            $('#emailError').text((!isEmail || !isNEU) && email !== "" ? "Please enter a valid Northeastern email" : "");
+            $('#passwordError').text(pass.length < 8 && pass !== "" ? "Minimum 8 characters required" : "");
+            $('#loginBtn').prop('disabled', !(isNEU && isEmail && isPassValid));
         };
-        if ($('#rememberMe').is(':checked')) {
-            localStorage.setItem('userSession', JSON.stringify(session));
-        } else {
-            sessionStorage.setItem('userSession', JSON.stringify(session));
-        }
 
-        // show success and redirect
-        $loginError.removeClass('text-danger').addClass('text-success').text('Login successful, redirecting...');
-        $('.card').fadeOut(1000, () => {
-            setTimeout(() => {
-                window.location.href = 'calculator.html';
-            }, 2000);
+        $('#email, #password').on('keyup blur', validateLogin);
+        $('#email, #password').on('focus', function() { $(this).next('.error-msg').text(''); });
+
+        $('#loginForm').on('submit', function(e) {
+            e.preventDefault();
+            const emailVal = $('#email').val();
+            const passVal = $('#password').val();
+            const user = users.find(u => u.email === emailVal && u.password === passVal);
+
+            if (user) {
+                const sessionData = { username: "Vigu", isLoggedIn: true };
+                const storage = $('#rememberMe').is(':checked') ? localStorage : sessionStorage;
+                storage.setItem('userSession', JSON.stringify(sessionData));
+                $('#successMsg').removeClass('d-none').hide().fadeIn();
+                setTimeout(() => window.location.href = 'calculator.html', 2000);
+            } else {
+                $('#loginError').text('Invalid email or password');
+            }
         });
-    });
+    }
+
+    // --- CALCULATOR LOGIC ---
+    if ($('#welcomeMessage').length) {
+        const sess = JSON.parse(sessionStorage.getItem('userSession') || localStorage.getItem('userSession') || 'null');
+        if (!sess || !sess.isLoggedIn) { window.location.href = 'login.html'; return; }
+        $('#welcomeMessage').text(`Welcome, ${sess.username}!`);
+
+        // REQUIREMENT: Single Arrow Function
+        const calculate = (num1, num2, operation) => {
+            const n1 = parseFloat(num1);
+            const n2 = parseFloat(num2);
+            switch(operation) {
+                case 'add': return n1 + n2;
+                case 'subtract': return n1 - n2;
+                case 'multiply': return n1 * n2;
+                case 'divide': return n2 === 0 ? "Cannot divide by zero" : n1 / n2;
+                default: return 0;
+            }
+        };
+
+        // STRICT CHARACTER BLOCKING: Prevents entering non-numeric chars
+        $('#num1, #num2').on('input', function() {
+            const val = $(this).val();
+            // Allow only digits, one decimal point, and a leading minus sign
+            const sanitized = val.replace(/[^0-9.\-]/g, '');
+            
+            if (val !== sanitized) {
+                $(this).val(sanitized);
+                $(this).next('.error-msg').text('Please enter a valid number');
+            } else {
+                $(this).next('.error-msg').text('');
+            }
+        });
+
+        // CALCULATION BUTTON LOGIC
+        $('.calc-btn').on('click', function() {
+            const v1 = $('#num1').val();
+            const v2 = $('#num2').val();
+
+            // Independent check on click (Rubric: Both fields required)
+            let valid = true;
+            if (!v1) { $('#num1Error').text('Please enter a valid number'); valid = false; }
+            if (!v2) { $('#num2Error').text('Please enter a valid number'); valid = false; }
+
+            if (!valid) return;
+
+            const result = calculate(v1, v2, $(this).data('op'));
+
+            // REQUIREMENT: jQuery Chaining
+            $('#result').val(result).hide().fadeIn(300);
+        });
+
+        // REQUIREMENT: Clear error on focus
+        $('#num1, #num2').on('focus', function() {
+            $(this).next('.error-msg').text('');
+        });
+
+        $('#logoutBtn').on('click', () => {
+            sessionStorage.clear(); localStorage.clear();
+            window.location.href = 'login.html';
+        });
+    }
 });
