@@ -2,10 +2,17 @@
 body {
     background-color: #121212;
     color: #e0e0e0;
+    /* soft dark theme accent colors */
 }
 .card {
     border-radius: 8px;
 }
+
+/* extra depth for login card */
+.shadow-lg {
+    box-shadow: 0 0 1rem rgba(0,0,0,0.7) !important;
+}
 .form-text.text-danger {
     min-height: 1.5em;
+    color: #ff6b6b; /* softer red for errors */
 }

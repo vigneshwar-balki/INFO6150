@@ -1,6 +1,6 @@
-# Assignment 6 - Part A: Calculator with User Login
+# Assignment 6 - Part A: Calculator
 
-This folder contains the web application for Part A of Assignment 6. It includes a login page and a calculator page built with modern JavaScript and jQuery.
+This folder contains the web application for Part A of Assignment 6. The first page is a login screen for the calculator application; after authentication the user is taken to the calculator page. Both pages use modern JavaScript and jQuery.
 
 ## Features
 
