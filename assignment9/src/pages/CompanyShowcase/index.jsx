@@ -3,18 +3,23 @@ import axios from 'axios';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import CardMedia from '@mui/material/CardMedia';
+import IconButton from '@mui/material/IconButton';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 function CompanyShowcase() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
     axios
@@ -92,109 +97,204 @@ function CompanyShowcase() {
         )}
 
         {!loading && users.length > 0 && (
-          <Grid container spacing={3}>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+              gap: 3,
+            }}
+          >
             {users.map((user) => (
-              <Grid item xs={12} sm={6} key={user._id || user.email}>
-                <Card
+              <Card
+                key={user._id || user.email}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  overflow: 'hidden',
+                  borderLeft: '3px solid #6c63ff',
+                  transition: 'all 200ms ease',
+                  '&:hover': {
+                    transform: 'translateY(-2px)',
+                    boxShadow: '0 0 24px rgba(108,99,255,0.2), -2px 0 12px rgba(108,99,255,0.15)',
+                  },
+                }}
+              >
+                {/* Image — left panel */}
+                <Box
+                  component="img"
+                  src={`http://localhost:3000${user.imagePath}`}
+                  alt={user.fullName}
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                  sx={{
+                    width: 160,
+                    flexShrink: 0,
+                    objectFit: 'cover',
+                    borderRight: '1px solid rgba(255,255,255,0.08)',
+                  }}
+                />
+
+                {/* Right — info */}
+                <Box
                   sx={{
                     display: 'flex',
-                    flexDirection: 'row',
-                    overflow: 'hidden',
-                    borderLeft: '3px solid #6c63ff',
-                    transition: 'all 200ms ease',
-                    '&:hover': {
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 0 24px rgba(108,99,255,0.2), -2px 0 12px rgba(108,99,255,0.15)',
-                    },
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    p: 3,
+                    flexGrow: 1,
+                    minWidth: 0,
                   }}
                 >
-                  {/* Image — left panel, fixed width */}
-                  <Box
-                    component="img"
-                    src={`http://localhost:3000${user.imagePath}`}
-                    alt={user.fullName}
-                    onError={(e) => { e.target.style.display = 'none'; }}
+                  <Avatar
                     sx={{
-                      width: 160,
-                      flexShrink: 0,
-                      objectFit: 'cover',
-                      borderRight: '1px solid rgba(255,255,255,0.08)',
-                    }}
-                  />
-
-                  {/* Right — info */}
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      p: 3,
-                      flexGrow: 1,
-                      minWidth: 0,
+                      width: 44,
+                      height: 44,
+                      mb: 1.5,
+                      background: 'linear-gradient(135deg, #6c63ff, #00d4aa)',
+                      fontSize: '1.1rem',
+                      fontWeight: 700,
                     }}
                   >
-                    <Avatar
-                      sx={{
-                        width: 44,
-                        height: 44,
-                        mb: 1.5,
-                        background: 'linear-gradient(135deg, #6c63ff, #00d4aa)',
-                        fontSize: '1.1rem',
-                        fontWeight: 700,
-                      }}
-                    >
-                      {user.fullName?.charAt(0)?.toUpperCase() || '?'}
-                    </Avatar>
+                    {user.fullName?.charAt(0)?.toUpperCase() || '?'}
+                  </Avatar>
 
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 700, lineHeight: 1.2, mb: 0.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                  >
+                    {user.fullName}
+                  </Typography>
+
+                  {user.email && (
                     <Typography
-                      variant="h6"
-                      sx={{ fontWeight: 700, lineHeight: 1.2, mb: 0.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                    >
-                      {user.fullName}
-                    </Typography>
-
-                    {user.email && (
-                      <Typography
-                        variant="caption"
-                        color="text.secondary"
-                        sx={{
-                          fontFamily: '"Space Mono", monospace',
-                          display: 'block',
-                          mb: 2,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {user.email}
-                      </Typography>
-                    )}
-
-                    <Button
-                      variant="outlined"
-                      size="small"
+                      variant="caption"
+                      color="text.secondary"
                       sx={{
-                        alignSelf: 'flex-start',
-                        borderColor: 'rgba(108,99,255,0.4)',
-                        color: '#6c63ff',
-                        fontSize: '0.75rem',
-                        py: 0.5,
-                        px: 1.5,
-                        '&:hover': {
-                          borderColor: '#6c63ff',
-                          backgroundColor: 'rgba(108,99,255,0.08)',
-                        },
+                        fontFamily: '"Space Mono", monospace',
+                        display: 'block',
+                        mb: 2,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
                       }}
                     >
-                      View Profile
-                    </Button>
-                  </Box>
-                </Card>
-              </Grid>
+                      {user.email}
+                    </Typography>
+                  )}
+
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={() => setSelected(user)}
+                    sx={{
+                      alignSelf: 'flex-start',
+                      borderColor: 'rgba(108,99,255,0.4)',
+                      color: '#6c63ff',
+                      fontSize: '0.75rem',
+                      py: 0.5,
+                      px: 1.5,
+                      '&:hover': {
+                        borderColor: '#6c63ff',
+                        backgroundColor: 'rgba(108,99,255,0.08)',
+                      },
+                    }}
+                  >
+                    View Profile
+                  </Button>
+                </Box>
+              </Card>
             ))}
-          </Grid>
+          </Box>
         )}
       </Container>
+
+      {/* Profile modal */}
+      <Dialog
+        open={Boolean(selected)}
+        onClose={() => setSelected(null)}
+        maxWidth="xs"
+        fullWidth
+        PaperProps={{
+          sx: {
+            backgroundColor: '#1a1a24',
+            border: '1px solid rgba(255,255,255,0.08)',
+            borderRadius: 3,
+            boxShadow: '0 0 40px rgba(108,99,255,0.2)',
+          },
+        }}
+      >
+        {selected && (
+          <DialogContent sx={{ p: 0 }}>
+            {/* Image + close button wrapper */}
+            <Box sx={{ position: 'relative' }}>
+              <CardMedia
+                component="img"
+                height="260"
+                image={`http://localhost:3000${selected.imagePath}`}
+                alt={selected.fullName}
+                sx={{ borderBottom: '1px solid rgba(255,255,255,0.08)', display: 'block' }}
+              />
+              <IconButton
+                onClick={() => setSelected(null)}
+                size="small"
+                sx={{
+                  position: 'absolute',
+                  top: 10,
+                  right: 10,
+                  backgroundColor: 'rgba(0,0,0,0.5)',
+                  color: '#f0f0ff',
+                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.7)' },
+                }}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </Box>
+
+            {/* Info */}
+            <Box sx={{ p: 3, textAlign: 'center' }}>
+              <Avatar
+                sx={{
+                  width: 56,
+                  height: 56,
+                  mx: 'auto',
+                  mb: 2,
+                  background: 'linear-gradient(135deg, #6c63ff, #00d4aa)',
+                  fontSize: '1.4rem',
+                  fontWeight: 700,
+                }}
+              >
+                {selected.fullName?.charAt(0)?.toUpperCase() || '?'}
+              </Avatar>
+
+              <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>
+                {selected.fullName}
+              </Typography>
+
+              {selected.email && (
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ fontFamily: '"Space Mono", monospace', wordBreak: 'break-all', mb: 3 }}
+                >
+                  {selected.email}
+                </Typography>
+              )}
+
+              <Button
+                variant="outlined"
+                fullWidth
+                onClick={() => setSelected(null)}
+                sx={{
+                  borderColor: 'rgba(255,255,255,0.15)',
+                  color: 'text.secondary',
+                  '&:hover': { borderColor: '#6c63ff', color: '#6c63ff' },
+                }}
+              >
+                Close
+              </Button>
+            </Box>
+          </DialogContent>
+        )}
+      </Dialog>
     </Box>
   );
 }

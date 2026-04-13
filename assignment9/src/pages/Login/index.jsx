@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Work as WorkIcon, LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
+import { Pets as PetsIcon, LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
 
 function Login() {
   const navigate = useNavigate();
@@ -86,7 +86,7 @@ function Login() {
                 mb: 2,
               }}
             >
-              <WorkIcon sx={{ color: 'primary.main', fontSize: 28 }} />
+              <PetsIcon sx={{ color: '#6c63ff', fontSize: 26 }} />
             </Box>
             <Typography
               variant="h5"
@@ -98,7 +98,7 @@ function Login() {
                 fontFamily: '"Space Mono", monospace',
               }}
             >
-              JobPortal
+              JobRabbit
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
               Sign in to your account
@@ -119,8 +119,15 @@ function Login() {
               type="email"
               value={form.email}
               onChange={handleChange}
-              sx={{ mb: 2 }}
               autoComplete="email"
+              sx={{
+                mb: 2,
+                '& .MuiOutlinedInput-root': { backgroundColor: '#1a1a24' },
+                '& input:-webkit-autofill': {
+                  WebkitBoxShadow: '0 0 0 1000px #1a1a24 inset !important',
+                  WebkitTextFillColor: '#f0f0ff !important',
+                },
+              }}
             />
             <TextField
               fullWidth
@@ -129,8 +136,15 @@ function Login() {
               type="password"
               value={form.password}
               onChange={handleChange}
-              sx={{ mb: 3 }}
               autoComplete="current-password"
+              sx={{
+                mb: 3,
+                '& .MuiOutlinedInput-root': { backgroundColor: '#1a1a24' },
+                '& input:-webkit-autofill': {
+                  WebkitBoxShadow: '0 0 0 1000px #1a1a24 inset !important',
+                  WebkitTextFillColor: '#f0f0ff !important',
+                },
+              }}
             />
             <Button
               type="submit"

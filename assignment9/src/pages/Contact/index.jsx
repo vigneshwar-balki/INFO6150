@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import TextField from '@mui/material/TextField';
@@ -98,10 +97,16 @@ function Contact() {
       </Box>
 
       <Container maxWidth="lg" sx={{ mt: 4 }}>
-        <Grid container spacing={4} alignItems="flex-start">
-
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', md: '5fr 7fr' },
+            gap: 4,
+            alignItems: 'start',
+          }}
+        >
           {/* Left — contact info panel */}
-          <Grid item xs={12} md={4}>
+          <Box>
             <Box
               sx={{
                 background: 'linear-gradient(160deg, rgba(108,99,255,0.08), rgba(0,212,170,0.06))',
@@ -160,10 +165,10 @@ function Contact() {
                 ))}
               </Box>
             </Box>
-          </Grid>
+          </Box>
 
           {/* Right — form */}
-          <Grid item xs={12} md={8}>
+          <Box>
             <Card>
               <CardContent sx={{ p: { xs: 3, md: 4 } }}>
                 {submitted ? (
@@ -193,46 +198,40 @@ function Contact() {
                     <Typography variant="h6" sx={{ fontWeight: 700, mb: 3 }}>
                       Send a Message
                     </Typography>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          fullWidth
-                          label="Full Name"
-                          name="fullName"
-                          value={form.fullName}
-                          onChange={handleChange}
-                          error={Boolean(errors.fullName)}
-                          helperText={errors.fullName}
-                          autoComplete="name"
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          fullWidth
-                          label="Email"
-                          name="email"
-                          type="email"
-                          value={form.email}
-                          onChange={handleChange}
-                          error={Boolean(errors.email)}
-                          helperText={errors.email}
-                          autoComplete="email"
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          label="Message"
-                          name="message"
-                          multiline
-                          rows={5}
-                          value={form.message}
-                          onChange={handleChange}
-                          error={Boolean(errors.message)}
-                          helperText={errors.message}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+                      <TextField
+                        fullWidth
+                        label="Full Name"
+                        name="fullName"
+                        value={form.fullName}
+                        onChange={handleChange}
+                        error={Boolean(errors.fullName)}
+                        helperText={errors.fullName}
+                        autoComplete="name"
+                      />
+                      <TextField
+                        fullWidth
+                        label="Email"
+                        name="email"
+                        type="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        error={Boolean(errors.email)}
+                        helperText={errors.email}
+                        autoComplete="email"
+                      />
+                      <TextField
+                        fullWidth
+                        label="Message"
+                        name="message"
+                        multiline
+                        rows={5}
+                        value={form.message}
+                        onChange={handleChange}
+                        error={Boolean(errors.message)}
+                        helperText={errors.message}
+                      />
+                      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                         <Button
                           type="submit"
                           variant="contained"
@@ -242,14 +241,14 @@ function Contact() {
                         >
                           Send Message
                         </Button>
-                      </Grid>
-                    </Grid>
+                      </Box>
+                    </Box>
                   </Box>
                 )}
               </CardContent>
             </Card>
-          </Grid>
-        </Grid>
+          </Box>
+        </Box>
       </Container>
     </Box>
   );

@@ -13,7 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Box from '@mui/material/Box';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { Menu as MenuIcon, Logout as LogoutIcon, Work as WorkIcon } from '@mui/icons-material';
+import { Menu as MenuIcon, Logout as LogoutIcon, Pets as PetsIcon } from '@mui/icons-material';
 
 const navLinks = [
   { label: 'Home', path: '/' },
@@ -44,12 +44,31 @@ function Navbar() {
     <>
       <AppBar position="sticky" elevation={0}>
         <Toolbar sx={{ px: { xs: 2, md: 4 } }}>
-          <WorkIcon sx={{ color: 'primary.main', mr: 1 }} />
+          {/* Logo mark */}
+          <Box
+            onClick={() => handleNav('/')}
+            sx={{
+              width: 30,
+              height: 30,
+              borderRadius: '50%',
+              background: 'rgba(108,99,255,0.15)',
+              border: '1px solid rgba(108,99,255,0.4)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              mr: 1,
+              cursor: 'pointer',
+              flexShrink: 0,
+            }}
+          >
+            <PetsIcon sx={{ color: '#6c63ff', fontSize: 17 }} />
+          </Box>
+
           <Typography
             variant="h6"
             sx={{
               fontWeight: 700,
-              background: 'linear-gradient(135deg, #6c63ff, #00d4aa)',
+              background: 'linear-gradient(135deg, #00d4aa, #6c63ff)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               flexGrow: isMobile ? 1 : 0,
@@ -60,7 +79,7 @@ function Navbar() {
             }}
             onClick={() => handleNav('/')}
           >
-            JobPortal
+            JobRabbit
           </Typography>
 
           {!isMobile && (
