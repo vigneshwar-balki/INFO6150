@@ -7,7 +7,9 @@
 
 ## Overview
 
-A RESTful User Management API built with **Node.js** and **Express.js**, backed by **MongoDB Atlas** via **Mongoose**. The API supports full CRUD operations — create, read, update, and delete users — as well as per-user image uploads handled by **Multer**. Passwords are securely hashed with **bcrypt** before persistence. Input validation is enforced at the route level on every write operation. Interactive API documentation is available through **Swagger UI**, and a ready-to-import **Postman collection** is included for manual testing.
+A RESTful API built with **Node.js** and **Express.js**, backed by **MongoDB Atlas** via **Mongoose**. Supports full CRUD operations for users, per-user image uploads via **Multer**, and job listing management (create/list). Passwords are securely hashed with **bcrypt**. Input validation is enforced at the route level on every write operation. Interactive API documentation is available through **Swagger UI**, and a ready-to-import **Postman collection** is included for manual testing.
+
+> **Assignment 10 update:** The User schema now requires a `type` field (`admin` or `employee`). Two new job endpoints (`POST /create/job`, `GET /jobs`) support the React frontend's role-based job portal.
 
 ---
 
@@ -35,9 +37,11 @@ assignment8/
 ├── middleware/
 │   └── upload.js              # Multer config: storage, filename, file-type filter
 ├── models/
-│   └── User.js                # Mongoose User schema and model
+│   ├── User.js                # Mongoose User schema (fullName, email, password, type, imagePath)
+│   └── Job.js                 # Mongoose Job schema (companyName, jobTitle, description, salary)
 ├── routes/
-│   └── userRoutes.js          # All /user/* route handlers with validation
+│   ├── userRoutes.js          # All /user/* route handlers with validation
+│   └── jobRoutes.js           # POST /create/job and GET /jobs
 ├── .env                       # Environment variables (not committed)
 ├── .gitignore
 ├── package.json
@@ -107,13 +111,15 @@ Create a new user account.
 | `fullName` | `string` | Yes | User's full name |
 | `email` | `string` | Yes | Unique email address |
 | `password` | `string` | Yes | Plain-text password (hashed before storage) |
+| `type` | `string` | Yes | Role — must be `admin` or `employee` |
 
 **Example Request:**
 ```json
 {
   "fullName": "Jane Doe",
   "email": "jane.doe@example.com",
-  "password": "Secure@123"
+  "password": "Secure@123",
+  "type": "employee"
 }
 ```
 
@@ -127,6 +133,7 @@ Create a new user account.
 | `400 Bad Request` | `{ "error": "Validation failed. Invalid email format." }` |
 | `400 Bad Request` | `{ "error": "Validation failed. Password must be at least 8 characters with uppercase, lowercase, digit, and special character." }` |
 | `400 Bad Request` | `{ "error": "Validation failed. Email already in use." }` |
+| `400 Bad Request` | `{ "error": "Type must be admin or employee." }` |
 | `503 Service Unavailable` | `{ "error": "Database unavailable. Verify Atlas network access/IP whitelist and try again." }` |
 
 ---
@@ -199,7 +206,7 @@ Permanently delete a user by email address.
 
 ### GET `/user/getAll`
 
-Retrieve all registered users. The response includes the hashed password and the image path (or `null` if no image has been uploaded).
+Retrieve all registered users. Passwords are excluded from the response.
 
 **Request Body:** None
 
@@ -208,15 +215,17 @@ Retrieve all registered users. The response includes the hashed password and the
 {
   "users": [
     {
+      "_id": "664a1b2c3d4e5f6a7b8c9d0e",
       "fullName": "Jane Doe",
       "email": "jane.doe@example.com",
-      "password": "$2b$10$hashedpasswordstring",
+      "type": "employee",
       "imagePath": "/images/1716095894537-655282983.png"
     },
     {
-      "fullName": "John Smith",
-      "email": "john.smith@example.com",
-      "password": "$2b$10$anotherhashedpassword",
+      "_id": "664a1b2c3d4e5f6a7b8c9d0f",
+      "fullName": "Admin User",
+      "email": "admin@jobrabbit.com",
+      "type": "admin",
       "imagePath": null
     }
   ]
@@ -228,6 +237,72 @@ Retrieve all registered users. The response includes the hashed password and the
 | Status | Body |
 |---|---|
 | `200 OK` | `{ "users": [ ...userObjects ] }` |
+| `503 Service Unavailable` | `{ "error": "Database unavailable. Verify Atlas network access/IP whitelist and try again." }` |
+
+---
+
+### POST `/create/job`
+
+Create a new job listing.
+
+**Content-Type:** `application/json`
+
+**Request Body:**
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `companyName` | `string` | Yes | Hiring company name |
+| `jobTitle` | `string` | Yes | Job title / position |
+| `description` | `string` | Yes | Role description |
+| `salary` | `string` | Yes | Salary range (e.g. `$90k – $120k / yr`) |
+
+**Example Request:**
+```json
+{
+  "companyName": "Acme Corp",
+  "jobTitle": "Frontend Engineer",
+  "description": "Build and maintain the React frontend.",
+  "salary": "$100k – $130k / yr"
+}
+```
+
+**Responses:**
+
+| Status | Body |
+|---|---|
+| `201 Created` | `{ "message": "Job created successfully.", "job": { ...jobObject } }` |
+| `400 Bad Request` | `{ "error": "All fields are required." }` |
+| `503 Service Unavailable` | `{ "error": "Database unavailable. Verify Atlas network access/IP whitelist and try again." }` |
+
+---
+
+### GET `/jobs`
+
+Retrieve all job listings, sorted by creation date (newest first).
+
+**Request Body:** None
+
+**Example Response:**
+```json
+{
+  "jobs": [
+    {
+      "_id": "664a1b2c3d4e5f6a7b8c9d10",
+      "companyName": "Acme Corp",
+      "jobTitle": "Frontend Engineer",
+      "description": "Build and maintain the React frontend.",
+      "salary": "$100k – $130k / yr",
+      "createdAt": "2025-04-10T12:00:00.000Z"
+    }
+  ]
+}
+```
+
+**Responses:**
+
+| Status | Body |
+|---|---|
+| `200 OK` | `{ "jobs": [ ...jobObjects ] }` |
 | `503 Service Unavailable` | `{ "error": "Database unavailable. Verify Atlas network access/IP whitelist and try again." }` |
 
 ---
