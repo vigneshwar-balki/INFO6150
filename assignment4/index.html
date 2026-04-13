@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- AI Assistant Button — fixed top-right -->
+    <button id="ai-assistant-btn"><svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:middle; margin-right:6px;'><path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'></path><circle cx='9' cy='10' r='1' fill='currentColor'></circle><circle cx='12' cy='10' r='1' fill='currentColor'></circle><circle cx='15' cy='10' r='1' fill='currentColor'></circle></svg>AI Assistant</button>
+
+    <!-- Chat Window — fixed bottom-right -->
+    <div id="chat-window" class="hidden">
+        <div id="chat-header">
+            <span><svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='vertical-align:middle; margin-right:6px;'><path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'></path><circle cx='9' cy='10' r='1' fill='currentColor'></circle><circle cx='12' cy='10' r='1' fill='currentColor'></circle><circle cx='15' cy='10' r='1' fill='currentColor'></circle></svg>Form Assistant</span>
+            <button id="close-chat">&times;</button>
+        </div>
+        <div id="chat-messages"></div>
+        <div id="chat-input-area">
+            <input type="text" id="chat-input" placeholder="Ask a question..." autocomplete="off" />
+            <button id="chat-send">Send</button>
+        </div>
+    </div>
+
+    <!-- Main beige container -->
+    <div id="container">
+        <main>
+            <h2>Feedback</h2>
+            <h3>Love something? Hate something? Let us know!</h3>
+            <p class="note">Note: Fields marked with an asterisk (*) are mandatory</p>
+
+            <form id="feedback-form" method="post" novalidate>
+
+                <!-- Title -->
+                <div class="form-row">
+                    <label>Title*:</label>
+                    <div class="inline-group">
+                        <input type="radio" name="title" id="miss" value="Miss" />
+                        <label for="miss" class="inline-label">Miss</label>
+                        <input type="radio" name="title" id="mr" value="Mr." />
+                        <label for="mr" class="inline-label">Mr.</label>
+                        <input type="radio" name="title" id="mrs" value="Mrs." />
+                        <label for="mrs" class="inline-label">Mrs.</label>
+                    </div>
+                </div>
+                <div id="title-error" class="error-msg"></div>
+
+                <!-- First Name -->
+                <div class="form-row">
+                    <label for="firstName">First Name*:</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+                </div>
+                <div id="firstName-error" class="error-msg"></div>
+
+                <!-- Last Name -->
+                <div class="form-row">
+                    <label for="lastName">Last Name*:</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+                </div>
+                <div id="lastName-error" class="error-msg"></div>
+
+                <!-- Email -->
+                <div class="form-row">
+                    <label for="emailId">Email Id*:</label>
+                    <input type="text" id="emailId" name="emailId" placeholder="yourname@northeastern.edu" />
+                </div>
+                <div id="emailId-error" class="error-msg"></div>
+
+                <!-- Phone Number -->
+                <div class="form-row">
+                    <label for="phoneNumber">Phone Number*:</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" placeholder="(XXX) XXX-XXXX" maxlength="14" />
+                </div>
+                <div id="phoneNumber-error" class="error-msg"></div>
+
+                <!-- Zipcode -->
+                <div class="form-row">
+                    <label for="zipcode">Zipcode*:</label>
+                    <input type="text" id="zipcode" name="zipcode" placeholder="XXXXX" maxlength="5" />
+                </div>
+                <div id="zipcode-error" class="error-msg"></div>
+
+                <!-- Street Address 1 -->
+                <div class="form-row">
+                    <label for="address1">Street Address 1*:</label>
+                    <input type="text" id="address1" name="address1" placeholder="Street Address 1" maxlength="100" />
+                </div>
+                <div id="address1-error" class="error-msg"></div>
+
+                <!-- Street Address 2 -->
+                <div class="form-row">
+                    <label for="address2">Street Address 2:</label>
+                    <input type="text" id="address2" name="address2" placeholder="Optional, max 20 chars" maxlength="20" />
+                </div>
+                <div id="address2-counter" class="char-counter">0/20 characters used</div>
+                <div id="address2-error" class="error-msg"></div>
+
+                <!-- How Did You Hear -->
+                <div class="form-row">
+                    <label>How did you hear*:</label>
+                    <div class="inline-group">
+                        <input type="checkbox" name="source" id="src-facebook" value="Facebook" />
+                        <label for="src-facebook" class="inline-label">Facebook</label>
+                        <input type="checkbox" name="source" id="src-google" value="Google" />
+                        <label for="src-google" class="inline-label">Google</label>
+                        <input type="checkbox" name="source" id="src-yelp" value="Yelp" />
+                        <label for="src-yelp" class="inline-label">Yelp</label>
+                    </div>
+                </div>
+                <div id="source-error" class="error-msg"></div>
+
+                <!-- Drink Selection -->
+                <div class="form-row">
+                    <label for="drink">Drink*:</label>
+                    <select id="drink" name="drink">
+                        <option value="">-- Select a drink --</option>
+                        <option value="Hot Black Tea">Hot Black Tea</option>
+                        <option value="Iced Coffee">Iced Coffee</option>
+                        <option value="Fresh Lemonade">Fresh Lemonade</option>
+                        <option value="Green Tea Latte">Green Tea Latte</option>
+                        <option value="Sparkling Water">Sparkling Water</option>
+                    </select>
+                </div>
+                <div id="drink-error" class="error-msg"></div>
+
+                <!-- Large size checkbox — dynamically injected by JS on drink selection -->
+                <div id="large-size-container"></div>
+
+                <!-- Special Instructions — shown/hidden by JS -->
+                <div id="special-instructions-container" class="hidden">
+                    <div class="form-row">
+                        <label for="specialInstructions">Special Instructions*:</label>
+                        <input type="text" id="specialInstructions" name="specialInstructions"
+                               placeholder="Enter special instructions" />
+                    </div>
+                    <div id="specialInstructions-error" class="error-msg"></div>
+                </div>
+
+                <!-- Comments -->
+                <div class="form-row">
+                    <label for="comments">Comments*:</label>
+                    <textarea id="comments" name="comments"
+                              placeholder="Your comments (10-500 characters)" rows="5" cols="25"></textarea>
+                </div>
+                <div id="comments-error" class="error-msg"></div>
+
+                <!-- Submit / Reset -->
+                <div class="form-row btn-row">
+                    <label></label>
+                    <div class="btn-group">
+                        <input type="submit" id="submit-btn" value="Submit" disabled />
+                        <input type="reset" id="reset-btn" value="Reset" />
+                    </div>
+                </div>
+
+            </form>
+        </main>
+    </div>
+
+    <!-- Results Table — appended on each submission -->
+    <div id="table-container" class="hidden">
+        <h3>Submitted Entries</h3>
+        <div class="table-scroll">
+            <table id="results-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Zipcode</th>
+                        <th>Address 1</th>
+                        <th>Address 2</th>
+                        <th>Comments</th>
+                        <th>Source</th>
+                        <th>Drink</th>
+                        <th>Large Size</th>
+                        <th>Special Instructions</th>
+                    </tr>
+                </thead>
+                <tbody id="results-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
