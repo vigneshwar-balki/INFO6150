@@ -51,7 +51,7 @@ const ensureDbConnected = (req, res, next) => {
 router.post("/create", ensureDbConnected, asyncHandler(async (req, res) => {
   const body = req.body || {};
   const name = pickFullName(body);
-  const { email, password } = body;
+  const { email, password, type } = body;
 
   if (!name) {
     return res.status(400).json({
@@ -70,12 +70,15 @@ router.post("/create", ensureDbConnected, asyncHandler(async (req, res) => {
   const passwordStr = password != null ? String(password) : "";
   if (!passwordStr || !passwordRegex.test(passwordStr))
     return res.status(400).json({ error: "Validation failed. Password must be at least 8 characters with uppercase, lowercase, digit, and special character." });
+  if (!type) return res.status(400).json({ error: "Validation failed. Type is required." });
+  if (type !== 'admin' && type !== 'employee')
+    return res.status(400).json({ error: "Type must be admin or employee." });
 
   const existing = await User.findOne({ email: emailStr });
   if (existing) return res.status(400).json({ error: "Validation failed. Email already in use." });
 
   const hashed = await bcrypt.hash(passwordStr, 10);
-  await User.create({ fullName: name, email: emailStr, password: hashed });
+  await User.create({ fullName: name, email: emailStr, password: hashed, type });
   return res.status(201).json({ message: "User created successfully." });
 }));
 
@@ -167,11 +170,12 @@ router.delete("/delete", ensureDbConnected, asyncHandler(async (req, res) => {
  *         description: List of users
  */
 router.get("/getAll", ensureDbConnected, asyncHandler(async (req, res) => {
-  const users = await User.find({}).lean();
+  const users = await User.find({}).select('-password').lean();
   const sanitizedUsers = users.map((user) => ({
+    _id: user._id,
     fullName: user.fullName,
     email: user.email,
-    password: user.password,
+    type: user.type ?? null,
     imagePath: user.imagePath ?? null,
   }));
   return res.status(200).json({ users: sanitizedUsers });

@@ -6,6 +6,7 @@ const path = require("path");
 const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./swagger");
 const userRoutes = require("./routes/userRoutes");
+const jobRoutes  = require("./routes/jobRoutes");
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/user", userRoutes);
+app.use("/", jobRoutes);
 app.use((err, req, res, next) => {
   console.error("Unhandled route error:", err.message);
   if (res.headersSent) return next(err);
