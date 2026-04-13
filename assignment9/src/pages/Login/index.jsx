@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -10,9 +11,11 @@ import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Pets as PetsIcon, LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
+import { loginSuccess } from '../../store/store';
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,12 +35,17 @@ function Login() {
     try {
       const res = await axios.get('http://localhost:3000/user/getAll');
       const users = res.data?.users || res.data || [];
-      const match = users.find(
-        (u) => u.email === form.email
-      );
+      const match = users.find((u) => u.email === form.email);
       if (match) {
+        const userType = match.type || 'employee';
         localStorage.setItem('userEmail', form.email);
-        navigate('/');
+        localStorage.setItem('userType', userType);
+        dispatch(loginSuccess({ user: form.email, type: userType }));
+        if (userType === 'admin') {
+          navigate('/admin/employees');
+        } else {
+          navigate('/jobs');
+        }
       } else {
         setError('Invalid email or password. Please try again.');
       }
