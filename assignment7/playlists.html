@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playlists — Melodiq</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<header class="navbar" role="banner">
+  <div class="navbar__inner">
+    <a href="index.html" class="navbar__brand" aria-label="Melodiq home">
+      <svg class="navbar__brand-logo" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="18" cy="18" r="17" stroke="url(#logo-grad-p)" stroke-width="2"/>
+        <path d="M14 12v10.5a3.5 3.5 0 1 0 2 0V15.5l8-2V22a3.5 3.5 0 1 0 2 0V11l-12 3z" fill="url(#logo-grad-p)"/>
+        <defs>
+          <linearGradient id="logo-grad-p" x1="4" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#ff006e"/>
+            <stop offset="1" stop-color="#8338ec"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="navbar__brand-name">Melodiq</span>
+    </a>
+
+    <nav class="navbar__links" aria-label="Primary navigation">
+      <a href="index.html">Home</a>
+      <a href="playlists.html" class="active">Playlists</a>
+      <a href="index.html#features">Features</a>
+      <a href="index.html#moods">Moods</a>
+      <a href="index.html#pricing">Pricing</a>
+    </nav>
+
+    <div class="navbar__actions">
+      <a href="#" class="btn btn--ghost">Login</a>
+      <a href="#" class="btn btn--primary">Start Free</a>
+    </div>
+  </div>
+</header>
+
+<main id="main-content">
+
+<!-- ============================================================
+     HERO — 50vh
+     ============================================================ -->
+<section class="playlists-hero" aria-labelledby="playlists-heading">
+  <h1 class="playlists-hero__title" id="playlists-heading">
+    Find your
+    <span style="background:linear-gradient(135deg,#ff006e,#8338ec);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">perfect playlist</span>
+  </h1>
+
+  <div class="search-bar" role="search">
+    <div class="search-bar__icon" aria-hidden="true">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="9" r="6"/>
+        <path d="M15 15l3 3" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <input
+      type="search"
+      id="playlist-search"
+      placeholder="Search playlists by name..."
+      aria-label="Search playlists"
+      autocomplete="off"
+    />
+  </div>
+</section>
+
+<!-- ============================================================
+     MOOD FILTER BAR — sticky
+     ============================================================ -->
+<div class="filter-bar" role="toolbar" aria-label="Filter by mood">
+  <div class="filter-bar__inner">
+    <button class="filter-bar__btn active" data-mood="all" aria-pressed="true">All Moods</button>
+    <button class="filter-bar__btn" data-mood="happy" aria-pressed="false">Happy</button>
+    <button class="filter-bar__btn" data-mood="chill" aria-pressed="false">Chill</button>
+    <button class="filter-bar__btn" data-mood="focus" aria-pressed="false">Focus</button>
+    <button class="filter-bar__btn" data-mood="sad" aria-pressed="false">Sad</button>
+    <button class="filter-bar__btn" data-mood="energy" aria-pressed="false">Energy</button>
+    <button class="filter-bar__btn" data-mood="romantic" aria-pressed="false">Romantic</button>
+    <button class="filter-bar__btn" data-mood="party" aria-pressed="false">Party</button>
+    <button class="filter-bar__btn" data-mood="sleep" aria-pressed="false">Sleep</button>
+  </div>
+</div>
+
+<!-- ============================================================
+     SORT BAR
+     ============================================================ -->
+<div class="sort-bar" role="toolbar" aria-label="Sort and view controls">
+  <p class="sort-bar__count">
+    Showing <span id="visible-count">12</span> playlists
+  </p>
+  <div class="sort-bar__right">
+    <select id="sort-select" class="sort-bar__sort" aria-label="Sort playlists by">
+      <option value="popular">Most Popular</option>
+      <option value="az">A — Z</option>
+      <option value="duration">Duration</option>
+    </select>
+    <div class="sort-bar__view-toggle" role="group" aria-label="View layout">
+      <button id="view-grid" class="active" aria-label="Grid view" aria-pressed="true">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <rect x="1" y="1" width="6" height="6" rx="1"/>
+          <rect x="9" y="1" width="6" height="6" rx="1"/>
+          <rect x="1" y="9" width="6" height="6" rx="1"/>
+          <rect x="9" y="9" width="6" height="6" rx="1"/>
+        </svg>
+      </button>
+      <button id="view-list" aria-label="List view" aria-pressed="false">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <rect x="1" y="2" width="14" height="2" rx="1"/>
+          <rect x="1" y="7" width="14" height="2" rx="1"/>
+          <rect x="1" y="12" width="14" height="2" rx="1"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     FEATURED PLAYLIST
+     ============================================================ -->
+<div class="featured-playlist" aria-labelledby="featured-heading">
+  <div class="featured-playlist__inner">
+    <div class="featured-playlist__art" aria-hidden="true">
+      <div class="art-cell" style="background:linear-gradient(135deg,#ff006e,#8338ec)"></div>
+      <div class="art-cell" style="background:linear-gradient(135deg,#3a86ff,#00d4aa)"></div>
+      <div class="art-cell" style="background:linear-gradient(135deg,#ff8c00,#ff006e)"></div>
+      <div class="art-cell" style="background:linear-gradient(135deg,#8338ec,#3a86ff)"></div>
+    </div>
+    <div class="featured-playlist__details">
+      <span class="featured-playlist__badge">Featured This Week</span>
+      <h2 class="featured-playlist__title" id="featured-heading">Late Night Drives</h2>
+      <p class="featured-playlist__desc">
+        Perfect for those long highway runs under city lights. A hand-curated mix of
+        indie, synthwave, and dreamy pop that makes every mile feel cinematic.
+      </p>
+      <div class="featured-playlist__meta">
+        <span><strong>42</strong> songs</span>
+        <span><strong>2h 38m</strong></span>
+        <span><strong>Energy</strong> mood</span>
+        <span>by <strong>Melodiq Editorial</strong></span>
+      </div>
+      <div class="featured-playlist__actions">
+        <button class="btn btn--primary btn--lg">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/>
+          </svg>
+          Play Now
+        </button>
+        <button class="btn btn--secondary btn--lg">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M3 6h14M3 10h14M3 14h14"/>
+          </svg>
+          Add to Library
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PLAYLIST GRID
+     ============================================================ -->
+<section class="playlist-grid-section" aria-labelledby="grid-heading">
+  <h2 class="section-title" id="grid-heading" style="margin-bottom:1.5rem">
+    All Playlists
+  </h2>
+
+  <div id="playlist-grid" aria-label="Playlist collection">
+
+    <!-- Card 1 -->
+    <article class="playlist-card delay-1" draggable="true" data-mood="happy" data-name="Sunrise Vibes" data-songs="28" data-duration="98" aria-label="Sunrise Vibes playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff006e,#ff8c00)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff8c00,#ffcc00)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ffcc00,#ff006e)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff4040,#ff8c00)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Sunrise Vibes" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge">Happy</span>
+        <h3 class="playlist-card__name">Sunrise Vibes</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" aria-hidden="true">MQ</div>
+          <span class="playlist-card__creator-name">Melodiq Curator</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>28 songs</span>
+        <span>1h 38m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="playlist-card delay-2" draggable="true" data-mood="chill" data-name="Ocean Breeze" data-songs="35" data-duration="145" aria-label="Ocean Breeze playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#3a86ff,#00d4aa)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#00d4aa,#3a86ff)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#1a7fff,#00b89e)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#0060cc,#00d4aa)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Ocean Breeze" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge" style="background:rgba(58,134,255,.2);color:#3a86ff">Chill</span>
+        <h3 class="playlist-card__name">Ocean Breeze</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" style="background:linear-gradient(135deg,#3a86ff,#00d4aa)" aria-hidden="true">TB</div>
+          <span class="playlist-card__creator-name">Tidal Beats</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>35 songs</span>
+        <span>2h 25m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="playlist-card delay-3" draggable="true" data-mood="focus" data-name="Deep Work Flow" data-songs="22" data-duration="110" aria-label="Deep Work Flow playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#8338ec,#3a86ff)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#3a86ff,#8338ec)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#6a1ecb,#1a60dd)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#9b5de5,#3a86ff)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Deep Work Flow" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge" style="background:rgba(131,56,236,.2);color:#8338ec">Focus</span>
+        <h3 class="playlist-card__name">Deep Work Flow</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" style="background:linear-gradient(135deg,#8338ec,#3a86ff)" aria-hidden="true">ZM</div>
+          <span class="playlist-card__creator-name">ZenMixer</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>22 songs</span>
+        <span>1h 50m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+    <!-- Card 4 -->
+    <article class="playlist-card delay-4" draggable="true" data-mood="sad" data-name="Blue Hour" data-songs="18" data-duration="78" aria-label="Blue Hour playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#1a1a2e,#3a86ff)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#2c3e7d,#1a1a2e)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#3a86ff,#2c3e7d)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#1c2a6e,#3a86ff)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Blue Hour" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge" style="background:rgba(58,134,255,.15);color:#6699cc">Sad</span>
+        <h3 class="playlist-card__name">Blue Hour</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" style="background:linear-gradient(135deg,#2c3e7d,#3a86ff)" aria-hidden="true">RM</div>
+          <span class="playlist-card__creator-name">Rain Mood</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>18 songs</span>
+        <span>1h 18m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+    <!-- Card 5 -->
+    <article class="playlist-card delay-5" draggable="true" data-mood="energy" data-name="Gym Beast Mode" data-songs="45" data-duration="168" aria-label="Gym Beast Mode playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff006e,#8338ec)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#8338ec,#ff006e)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#cc004f,#6b22c4)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff3388,#9944ff)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Gym Beast Mode" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge" style="background:rgba(255,0,110,.2);color:#ff006e">Energy</span>
+        <h3 class="playlist-card__name">Gym Beast Mode</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" style="background:linear-gradient(135deg,#ff006e,#8338ec)" aria-hidden="true">PW</div>
+          <span class="playlist-card__creator-name">PowerWave</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>45 songs</span>
+        <span>2h 48m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+    <!-- Card 6 -->
+    <article class="playlist-card delay-6" draggable="true" data-mood="romantic" data-name="Candlelight" data-songs="24" data-duration="96" aria-label="Candlelight playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#c2185b,#ff006e)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff006e,#c2185b)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#8b003a,#e91e63)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#d81b60,#ff4081)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Candlelight" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge" style="background:rgba(194,24,91,.2);color:#e91e63">Romantic</span>
+        <h3 class="playlist-card__name">Candlelight</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" style="background:linear-gradient(135deg,#c2185b,#ff006e)" aria-hidden="true">LS</div>
+          <span class="playlist-card__creator-name">Love Stories</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>24 songs</span>
+        <span>1h 36m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+    <!-- Card 7 -->
+    <article class="playlist-card delay-7" draggable="true" data-mood="party" data-name="Weekend Banger" data-songs="50" data-duration="200" aria-label="Weekend Banger playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff8c00,#ff006e)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff006e,#ff8c00)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#cc6600,#cc004f)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ffa500,#ff3388)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Weekend Banger" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge" style="background:rgba(255,140,0,.2);color:#ff8c00">Party</span>
+        <h3 class="playlist-card__name">Weekend Banger</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" style="background:linear-gradient(135deg,#ff8c00,#ff006e)" aria-hidden="true">DK</div>
+          <span class="playlist-card__creator-name">DanceKing</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>50 songs</span>
+        <span>3h 20m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+    <!-- Card 8 -->
+    <article class="playlist-card delay-8" draggable="true" data-mood="sleep" data-name="Dreamscape" data-songs="20" data-duration="90" aria-label="Dreamscape playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#0d1b2a,#1a1a2e)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#1a1a2e,#0d1b2a)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#05080f,#1c1c30)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#121222,#0d1b2a)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Dreamscape" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge" style="background:rgba(255,255,255,.08);color:#888">Sleep</span>
+        <h3 class="playlist-card__name">Dreamscape</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" style="background:linear-gradient(135deg,#0d1b2a,#3a86ff)" aria-hidden="true">NW</div>
+          <span class="playlist-card__creator-name">NightWave</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>20 songs</span>
+        <span>1h 30m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+    <!-- Card 9 -->
+    <article class="playlist-card delay-9" draggable="true" data-mood="chill" data-name="Sunday Coffee" data-songs="30" data-duration="118" aria-label="Sunday Coffee playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#00d4aa,#3a86ff)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#3a86ff,#00d4aa)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#00aa88,#2266cc)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#00c49a,#4499ff)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Sunday Coffee" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge" style="background:rgba(58,134,255,.2);color:#3a86ff">Chill</span>
+        <h3 class="playlist-card__name">Sunday Coffee</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" style="background:linear-gradient(135deg,#00d4aa,#3a86ff)" aria-hidden="true">MQ</div>
+          <span class="playlist-card__creator-name">Melodiq Curator</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>30 songs</span>
+        <span>1h 58m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+    <!-- Card 10 -->
+    <article class="playlist-card delay-10" draggable="true" data-mood="focus" data-name="Study Session" data-songs="26" data-duration="120" aria-label="Study Session playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#6a0dad,#3a86ff)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#3a86ff,#6a0dad)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#5b0e91,#1a60dd)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#7a1ec3,#4499ff)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Study Session" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge" style="background:rgba(131,56,236,.2);color:#8338ec">Focus</span>
+        <h3 class="playlist-card__name">Study Session</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" style="background:linear-gradient(135deg,#6a0dad,#3a86ff)" aria-hidden="true">KF</div>
+          <span class="playlist-card__creator-name">KeyFlow</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>26 songs</span>
+        <span>2h 00m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+    <!-- Card 11 -->
+    <article class="playlist-card delay-11" draggable="true" data-mood="energy" data-name="Run Hard" data-songs="38" data-duration="142" aria-label="Run Hard playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff4500,#ff006e)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff006e,#ff4500)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#cc3300,#cc004f)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff6633,#ff3388)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Run Hard" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge" style="background:rgba(255,0,110,.2);color:#ff006e">Energy</span>
+        <h3 class="playlist-card__name">Run Hard</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" style="background:linear-gradient(135deg,#ff4500,#ff006e)" aria-hidden="true">RR</div>
+          <span class="playlist-card__creator-name">RoadRunner</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>38 songs</span>
+        <span>2h 22m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+    <!-- Card 12 -->
+    <article class="playlist-card delay-12" draggable="true" data-mood="happy" data-name="Summer Nostalgia" data-songs="32" data-duration="128" aria-label="Summer Nostalgia playlist">
+      <div class="playlist-card__art-grid">
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ffcc00,#ff8c00)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff8c00,#ff006e)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ff006e,#ffcc00)"></div>
+        <div class="playlist-card__art-cell" style="background:linear-gradient(135deg,#ffaa00,#ff4466)"></div>
+        <div class="playlist-card__art-overlay" aria-hidden="true">
+          <div class="play-btn" role="button" aria-label="Play Summer Nostalgia" tabindex="0">
+            <svg viewBox="0 0 20 20" fill="white" aria-hidden="true"><path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="playlist-card__body">
+        <span class="playlist-card__mood-badge">Happy</span>
+        <h3 class="playlist-card__name">Summer Nostalgia</h3>
+        <div class="playlist-card__creator">
+          <div class="playlist-card__avatar" aria-hidden="true">SR</div>
+          <span class="playlist-card__creator-name">SunRise FM</span>
+        </div>
+      </div>
+      <div class="playlist-card__meta">
+        <span>32 songs</span>
+        <span>2h 08m</span>
+      </div>
+      <div class="playlist-card__actions">
+        <button aria-label="Play"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3 2a1 1 0 0 1 1.447-.894l10 5a1 1 0 0 1 0 1.788l-10 5A1 1 0 0 1 3 12V2z"/></svg></button>
+        <button aria-label="Like"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2.5 4a3 3 0 0 1 5.5 0 3 3 0 0 1 5.5 0c0 4-5.5 8-5.5 8s-5.5-4-5.5-8z"/></svg></button>
+        <button aria-label="More options"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="8" cy="3" r="1.5"/><circle cx="8" cy="8" r="1.5"/><circle cx="8" cy="13" r="1.5"/></svg></button>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     CREATE PLAYLIST FORM
+     ============================================================ -->
+<section class="create-section" aria-labelledby="create-heading">
+  <div class="create-section__header">
+    <h2 class="create-section__title" id="create-heading">
+      Create your <span>own playlist</span>
+    </h2>
+    <p class="create-section__desc">
+      Curate your perfect mood mix. Set a name, pick your vibe, and go.
+    </p>
+  </div>
+
+  <div class="create-form" role="form" aria-label="Create new playlist">
+    <div class="create-form__grid">
+
+      <!-- Left column -->
+      <div class="create-form__col">
+        <div class="form-group">
+          <label for="playlist-name-input">Playlist Name</label>
+          <input
+            type="text"
+            id="playlist-name-input"
+            class="input"
+            placeholder="e.g. Late Night Vibes"
+            maxlength="60"
+            aria-describedby="name-hint"
+          />
+          <span id="name-hint" class="text-muted" style="font-size:0.75rem">Max 60 characters</span>
+        </div>
+
+        <div class="form-group">
+          <label for="playlist-mood-select">Mood</label>
+          <select id="playlist-mood-select" class="select" aria-label="Select mood">
+            <option value="">-- Select a mood --</option>
+            <option value="happy">Happy</option>
+            <option value="chill">Chill</option>
+            <option value="focus">Focus</option>
+            <option value="sad">Sad</option>
+            <option value="energy">Energy</option>
+            <option value="romantic">Romantic</option>
+            <option value="party">Party</option>
+            <option value="sleep">Sleep</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="playlist-genre">Genre</label>
+          <select id="playlist-genre" class="select" aria-label="Select genre">
+            <option value="">-- Select a genre --</option>
+            <option value="pop">Pop</option>
+            <option value="hiphop">Hip-Hop</option>
+            <option value="rnb">R&amp;B</option>
+            <option value="indie">Indie</option>
+            <option value="electronic">Electronic</option>
+            <option value="jazz">Jazz</option>
+            <option value="classical">Classical</option>
+            <option value="rock">Rock</option>
+            <option value="lofi">Lo-Fi</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Privacy</label>
+          <div class="toggle">
+            <span class="toggle__label">Make playlist public</span>
+            <label class="toggle__switch" aria-label="Toggle public visibility">
+              <input type="checkbox" id="playlist-public" />
+              <span class="toggle__track">
+                <span class="toggle__thumb"></span>
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column -->
+      <div class="create-form__col">
+        <div class="form-group">
+          <label for="playlist-description">Description</label>
+          <textarea
+            id="playlist-description"
+            class="textarea"
+            placeholder="Tell us about this playlist..."
+            rows="4"
+            maxlength="300"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Cover Art</label>
+          <div class="cover-options" role="radiogroup" aria-label="Select cover art gradient">
+            <div class="cover-option cover-option--1 selected" role="radio" aria-checked="true" tabindex="0" aria-label="Pink to purple gradient"></div>
+            <div class="cover-option cover-option--2" role="radio" aria-checked="false" tabindex="0" aria-label="Blue to teal gradient"></div>
+            <div class="cover-option cover-option--3" role="radio" aria-checked="false" tabindex="0" aria-label="Orange to pink gradient"></div>
+            <div class="cover-option cover-option--4" role="radio" aria-checked="false" tabindex="0" aria-label="Purple to blue gradient"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="create-form__submit">
+        <button type="submit" class="btn btn--primary btn--lg" style="width:100%;justify-content:center">
+          <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M10 3a1 1 0 0 1 1 1v5h5a1 1 0 1 1 0 2h-5v5a1 1 0 1 1-2 0v-5H4a1 1 0 1 1 0-2h5V4a1 1 0 0 1 1-1z"/>
+          </svg>
+          Create Playlist
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Live preview -->
+  <div class="live-preview" aria-live="polite" aria-label="Playlist preview">
+    <p class="live-preview__title">Live Preview</p>
+    <div class="live-preview__mini-card" role="presentation">
+      <div class="mini-art" id="preview-art" aria-hidden="true"></div>
+      <div class="mini-body">
+        <p class="mini-name" id="preview-name">Untitled Playlist</p>
+        <p class="mini-mood text-muted" id="preview-mood">Select mood</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<!-- ============================================================
+     MODAL
+     ============================================================ -->
+<div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-name" aria-hidden="true">
+  <div class="modal">
+    <button id="modal-close" class="modal__close" aria-label="Close modal">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M3 3l10 10M13 3L3 13" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <div class="modal__body">
+      <!-- Art -->
+      <div class="modal__art" id="modal-art" aria-hidden="true">
+        <!-- injected by JS -->
+      </div>
+
+      <!-- Details -->
+      <div class="modal__details">
+        <h2 class="modal__name" id="modal-name">Playlist Name</h2>
+        <span class="modal__mood-badge" id="modal-mood">mood</span>
+
+        <div class="modal__stats" aria-label="Playlist statistics">
+          <div class="modal__stats-item">
+            <span class="stat-value" id="modal-songs">0</span>
+            <span class="stat-label">Songs</span>
+          </div>
+          <div class="modal__stats-item">
+            <span class="stat-value" id="modal-duration">0h 0m</span>
+            <span class="stat-label">Duration</span>
+          </div>
+          <div class="modal__stats-item">
+            <span class="stat-value">4.8</span>
+            <span class="stat-label">Rating</span>
+          </div>
+        </div>
+
+        <p class="modal__description">
+          A perfectly curated selection of tracks to match your mood. Updated weekly with fresh picks from our editorial team.
+        </p>
+
+        <!-- Track list — 8 fake tracks -->
+        <div class="modal__tracks" aria-label="Track listing">
+          <div class="modal__track-row"><span class="tr-num">1</span><div class="tr-info"><p class="tr-name">Golden Horizon</p><p class="tr-artist">Luna Waves</p></div><span class="tr-dur">3:54</span></div>
+          <div class="modal__track-row"><span class="tr-num">2</span><div class="tr-info"><p class="tr-name">Neon Drift</p><p class="tr-artist">Tidal Echo</p></div><span class="tr-dur">4:02</span></div>
+          <div class="modal__track-row"><span class="tr-num">3</span><div class="tr-info"><p class="tr-name">Electric Pulse</p><p class="tr-artist">Solar Drift</p></div><span class="tr-dur">3:38</span></div>
+          <div class="modal__track-row"><span class="tr-num">4</span><div class="tr-info"><p class="tr-name">Midnight Run</p><p class="tr-artist">Phase Echo</p></div><span class="tr-dur">5:11</span></div>
+          <div class="modal__track-row"><span class="tr-num">5</span><div class="tr-info"><p class="tr-name">Velvet Haze</p><p class="tr-artist">Aurora Sound</p></div><span class="tr-dur">4:28</span></div>
+          <div class="modal__track-row"><span class="tr-num">6</span><div class="tr-info"><p class="tr-name">Crystal Sky</p><p class="tr-artist">Nova Beats</p></div><span class="tr-dur">3:47</span></div>
+          <div class="modal__track-row"><span class="tr-num">7</span><div class="tr-info"><p class="tr-name">Starfall</p><p class="tr-artist">Cosmos Audio</p></div><span class="tr-dur">4:15</span></div>
+          <div class="modal__track-row"><span class="tr-num">8</span><div class="tr-info"><p class="tr-name">Deep Current</p><p class="tr-artist">Ocean Tone</p></div><span class="tr-dur">3:59</span></div>
+        </div>
+
+        <div class="modal__actions">
+          <button id="modal-play-all" class="btn btn--primary">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M4 3a1 1 0 0 1 1.447-.894l12 6a1 1 0 0 1 0 1.788l-12 6A1 1 0 0 1 4 15V3z"/>
+            </svg>
+            Play All
+          </button>
+          <button class="btn btn--secondary" id="modal-close-btn" onclick="document.getElementById('modal-close').click()">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer" role="contentinfo">
+  <div class="footer__grid">
+    <div class="footer__brand">
+      <div class="footer__logo">
+        <svg width="28" height="28" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <circle cx="18" cy="18" r="17" stroke="url(#footer-p-grad)" stroke-width="2"/>
+          <path d="M14 12v10.5a3.5 3.5 0 1 0 2 0V15.5l8-2V22a3.5 3.5 0 1 0 2 0V11l-12 3z" fill="url(#footer-p-grad)"/>
+          <defs>
+            <linearGradient id="footer-p-grad" x1="4" y1="4" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#ff006e"/><stop offset="1" stop-color="#8338ec"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span>Melodiq</span>
+      </div>
+      <p class="footer__tagline">AI-powered playlists that match every moment of your life.</p>
+      <div class="footer__socials">
+        <a href="#" aria-label="X"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M17.316 3h2.685l-5.862 6.702 6.897 9.118h-5.4l-4.23-5.531-4.84 5.531H3.882l6.272-7.17L3.316 3h5.535l3.82 5.049L17.316 3zm-.942 14.07h1.487L7.682 4.524H6.09l10.284 12.546z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="2" width="16" height="16" rx="4"/><circle cx="10" cy="10" r="3.5"/><circle cx="14.5" cy="5.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="Spotify"><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a8 8 0 1 0 0 16A8 8 0 0 0 10 2zm3.67 11.57a.5.5 0 0 1-.69.16c-1.89-1.16-4.26-1.42-7.06-.78a.5.5 0 1 1-.23-.97c3.06-.7 5.69-.4 7.82.9a.5.5 0 0 1 .16.69zm.98-2.18a.625.625 0 0 1-.86.2c-2.16-1.33-5.46-1.71-8.02-.94a.625.625 0 1 1-.36-1.2c2.92-.88 6.55-.45 9.04 1.07a.625.625 0 0 1 .2.87zm.09-2.28C12.09 7.5 7.99 7.36 5.4 8.11a.75.75 0 1 1-.43-1.44c2.95-.87 7.45-.7 10.39 1.09a.75.75 0 0 1-.61 1.35z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer__col"><h4>Product</h4><ul><li><a href="playlists.html">Playlists</a></li><li><a href="index.html#features">Features</a></li><li><a href="index.html#moods">Moods</a></li><li><a href="#">Mobile App</a></li></ul></div>
+    <div class="footer__col"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Careers</a></li><li><a href="#">Contact</a></li></ul></div>
+    <div class="footer__newsletter"><h4>Stay in tune</h4><p>Get the latest playlists and mood drops.</p><form aria-label="Newsletter"><input type="email" placeholder="your@email.com" aria-label="Email"/><button type="submit" class="btn btn--primary" style="width:100%">Subscribe</button></form></div>
+  </div>
+  <div class="footer__bottom">
+    <p>&copy; 2026 Melodiq Inc. All rights reserved.</p>
+    <p><a href="#" style="margin-right:1rem">Privacy</a><a href="#">Terms</a></p>
+  </div>
+</footer>
+
+<script src="js/playlists.js"></script>
+</body>
+</html>
