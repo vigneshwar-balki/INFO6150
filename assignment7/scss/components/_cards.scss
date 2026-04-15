@@ -1,0 +1,423 @@
+// ============================================================
+// CARDS — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use 'sass:list';
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/functions' as fn;
+@use '../abstracts/placeholders' as ph;
+
+// Feature card
+.feature-card {
+  @extend %card-base;
+  @extend %gradient-border;
+  padding: map.get(vars.$spacing, 'xl');
+  @include mix.card-glow(map.get(vars.$colors, 'purple'), 0.2);
+
+  &__icon {
+    @extend %flex-center;
+    width: 52px;
+    height: 52px;
+    border-radius: map.get(vars.$radii, 'lg');
+    background: rgba(map.get(vars.$colors, 'purple'), 0.15);
+    margin-bottom: map.get(vars.$spacing, 'lg');
+    color: map.get(vars.$colors, 'purple');
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__title {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: fn.rem(18);
+    font-weight: 700;
+    margin-bottom: map.get(vars.$spacing, 'sm');
+    color: map.get(vars.$colors, 'white');
+  }
+
+  &__desc {
+    font-size: fn.rem(14);
+    color: map.get(vars.$colors, 'muted');
+    line-height: 1.7;
+  }
+
+  &:nth-child(1) .feature-card__icon {
+    background: rgba(map.get(vars.$colors, 'pink'), 0.15);
+    color: map.get(vars.$colors, 'pink');
+  }
+  &:nth-child(2) .feature-card__icon {
+    background: rgba(map.get(vars.$colors, 'blue'), 0.15);
+    color: map.get(vars.$colors, 'blue');
+  }
+  &:nth-child(3) .feature-card__icon {
+    background: rgba(map.get(vars.$colors, 'teal'), 0.15);
+    color: map.get(vars.$colors, 'teal');
+  }
+  &:nth-child(4) .feature-card__icon {
+    background: rgba(map.get(vars.$colors, 'orange'), 0.15);
+    color: map.get(vars.$colors, 'orange');
+  }
+  &:nth-child(5) .feature-card__icon {
+    background: rgba(map.get(vars.$colors, 'purple'), 0.15);
+    color: map.get(vars.$colors, 'purple');
+  }
+  &:nth-child(6) .feature-card__icon {
+    background: rgba(map.get(vars.$colors, 'pink'), 0.15);
+    color: map.get(vars.$colors, 'pink');
+  }
+}
+
+// ============================================================
+// MOOD CARDS — @each loop for 8 moods
+// ============================================================
+$mood-list: (
+  'happy':    (map.get(vars.$colors, 'pink'),   map.get(vars.$colors, 'orange')),
+  'chill':    (map.get(vars.$colors, 'blue'),   map.get(vars.$colors, 'teal')),
+  'focus':    (map.get(vars.$colors, 'purple'), map.get(vars.$colors, 'blue')),
+  'sad':      (#2c3e7d,                          map.get(vars.$colors, 'blue')),
+  'energy':   (map.get(vars.$colors, 'pink'),   map.get(vars.$colors, 'purple')),
+  'romantic': (#c2185b,                          map.get(vars.$colors, 'pink')),
+  'party':    (map.get(vars.$colors, 'orange'), map.get(vars.$colors, 'pink')),
+  'sleep':    (#0d1b2a,                          #1a1a2e),
+);
+
+@each $mood, $colors in $mood-list {
+  $from: list.nth($colors, 1);
+  $to:   list.nth($colors, 2);
+
+  .mood-#{$mood} {
+    background: linear-gradient(135deg, #{$from}, #{$to});
+
+    .mood-card__overlay {
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.7),
+        rgba($from, 0.1)
+      );
+    }
+
+    &:hover .mood-card__play {
+      background: $from;
+      box-shadow: 0 4px 20px rgba($from, 0.5);
+    }
+  }
+}
+
+// Mood card base
+.mood-card {
+  @extend %card-base;
+  position: relative;
+  aspect-ratio: 1;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform map.get(vars.$transitions, 'normal');
+
+  &:hover {
+    transform: translateY(-6px) scale(1.02);
+
+    .mood-card__overlay {
+      opacity: 1;
+    }
+
+    .mood-card__play {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity map.get(vars.$transitions, 'normal');
+  }
+
+  &__content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: map.get(vars.$spacing, 'lg');
+    z-index: fn.z('raised');
+  }
+
+  &__name {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: fn.rem(20);
+    font-weight: 800;
+    color: white;
+    text-transform: capitalize;
+    margin-bottom: map.get(vars.$spacing, 'xs');
+  }
+
+  &__count {
+    font-size: fn.rem(13);
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  &__play {
+    @extend %flex-center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 10px));
+    width: 52px;
+    height: 52px;
+    border-radius: map.get(vars.$radii, 'full');
+    background: map.get(vars.$colors, 'pink');
+    opacity: 0;
+    transition: opacity map.get(vars.$transitions, 'normal'),
+                transform map.get(vars.$transitions, 'spring');
+
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+      color: white;
+    }
+  }
+}
+
+// ============================================================
+// @for loop — animation delays .delay-1 through .delay-12
+// ============================================================
+@for $i from 1 through 12 {
+  .delay-#{$i} {
+    animation-delay: #{$i * 0.08}s;
+    transition-delay: #{$i * 0.04}s;
+  }
+}
+
+// Playlist card (page 2)
+.playlist-card {
+  @extend %card-base;
+  cursor: pointer;
+  transition: transform map.get(vars.$transitions, 'normal'),
+              box-shadow map.get(vars.$transitions, 'normal'),
+              opacity map.get(vars.$transitions, 'normal');
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+
+    .playlist-card__art-overlay {
+      opacity: 1;
+    }
+  }
+
+  &.is-dragging {
+    opacity: 0.5;
+    cursor: grabbing;
+  }
+
+  &.drag-over {
+    border: 2px dashed map.get(vars.$colors, 'pink');
+  }
+
+  &.hidden {
+    display: none;
+  }
+
+  &.fade-out {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  &.fade-in {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &__art-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    aspect-ratio: 1;
+    position: relative;
+  }
+
+  &__art-overlay {
+    position: absolute;
+    inset: 0;
+    @extend %flex-center;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    transition: opacity map.get(vars.$transitions, 'normal');
+    z-index: fn.z('raised');
+  }
+
+  &__art-cell {
+    display: block;
+  }
+
+  &__body {
+    padding: map.get(vars.$spacing, 'md') map.get(vars.$spacing, 'md') map.get(vars.$spacing, 'sm');
+  }
+
+  &__mood-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px map.get(vars.$spacing, 'sm');
+    border-radius: map.get(vars.$radii, 'full');
+    font-size: fn.rem(11);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: map.get(vars.$spacing, 'sm');
+    background: rgba(map.get(vars.$colors, 'pink'), 0.2);
+    color: map.get(vars.$colors, 'pink');
+  }
+
+  &__name {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: fn.rem(16);
+    font-weight: 700;
+    color: map.get(vars.$colors, 'white');
+    margin-bottom: map.get(vars.$spacing, 'xs');
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__creator {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'xs'));
+    margin-bottom: map.get(vars.$spacing, 'sm');
+  }
+
+  &__avatar {
+    @extend %flex-center;
+    width: 24px;
+    height: 24px;
+    border-radius: map.get(vars.$radii, 'full');
+    background: linear-gradient(
+      135deg,
+      map.get(vars.$colors, 'pink'),
+      map.get(vars.$colors, 'purple')
+    );
+    font-size: fn.rem(10);
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  &__creator-name {
+    font-size: fn.rem(13);
+    color: map.get(vars.$colors, 'muted');
+  }
+
+  &__meta {
+    @include mix.flex-layout(row, center, space-between);
+    font-size: fn.rem(12);
+    color: map.get(vars.$colors, 'muted');
+    border-top: 1px solid map.get(vars.$colors, 'border');
+    padding: map.get(vars.$spacing, 'sm') map.get(vars.$spacing, 'md');
+  }
+
+  &__actions {
+    @include mix.flex-layout(row, center, flex-end, map.get(vars.$spacing, 'xs'));
+    padding: 0 map.get(vars.$spacing, 'md') map.get(vars.$spacing, 'sm');
+
+    button {
+      @extend %flex-center;
+      width: 32px;
+      height: 32px;
+      border-radius: map.get(vars.$radii, 'full');
+      background: transparent;
+      border: 1px solid map.get(vars.$colors, 'border');
+      color: map.get(vars.$colors, 'muted');
+      cursor: pointer;
+      transition: all map.get(vars.$transitions, 'fast');
+
+      &:hover {
+        border-color: map.get(vars.$colors, 'pink');
+        color: map.get(vars.$colors, 'pink');
+      }
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+
+  &--list {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'md'));
+    padding: map.get(vars.$spacing, 'md');
+
+    .playlist-card__art-grid {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+      aspect-ratio: 1;
+      border-radius: map.get(vars.$radii, 'md');
+      overflow: hidden;
+    }
+
+    .playlist-card__body {
+      flex: 1;
+      padding: 0;
+    }
+
+    .playlist-card__actions {
+      padding: 0;
+    }
+  }
+}
+
+// Testimonial card
+.testimonial-card {
+  @extend %card-base;
+  @extend %glass-card;
+  padding: map.get(vars.$spacing, 'xl');
+
+  &__stars {
+    @include mix.flex-layout(row, center, flex-start, 4px);
+    margin-bottom: map.get(vars.$spacing, 'md');
+
+    svg {
+      width: 16px;
+      height: 16px;
+      color: map.get(vars.$colors, 'orange');
+      fill: map.get(vars.$colors, 'orange');
+    }
+  }
+
+  &__quote {
+    font-size: fn.rem(15);
+    line-height: 1.7;
+    color: rgba(map.get(vars.$colors, 'white'), 0.85);
+    margin-bottom: map.get(vars.$spacing, 'lg');
+    font-style: italic;
+  }
+
+  &__author {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'md'));
+  }
+
+  &__avatar {
+    @extend %flex-center;
+    width: 44px;
+    height: 44px;
+    border-radius: map.get(vars.$radii, 'full');
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-weight: 700;
+    font-size: fn.rem(16);
+    flex-shrink: 0;
+  }
+
+  &__name {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: fn.rem(15);
+    font-weight: 700;
+    color: map.get(vars.$colors, 'white');
+  }
+
+  &__role {
+    font-size: fn.rem(13);
+    color: map.get(vars.$colors, 'muted');
+  }
+}

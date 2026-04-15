@@ -1,0 +1,213 @@
+// ============================================================
+// HOME PAGE — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/functions' as fn;
+@use '../abstracts/placeholders' as ph;
+
+// Features section
+.features-section {
+  @extend %section-padding;
+  max-width: 1280px;
+  margin: 0 auto;
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: map.get(vars.$spacing, 'xl');
+
+    @include mix.respond-to('lg') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include mix.respond-to('sm') {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+// How it works
+.how-section {
+  @extend %section-padding;
+  position: relative;
+  background: map.get(vars.$colors, 'dark-card');
+
+  &__steps {
+    @include mix.flex-layout(row, flex-start, center, 0);
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+
+    @include mix.respond-to('md') {
+      flex-direction: column;
+      align-items: center;
+      gap: map.get(vars.$spacing, '2xl');
+    }
+  }
+
+  &__step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    padding: 0 map.get(vars.$spacing, 'lg');
+
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 40px;
+      right: -20px;
+      width: 40px;
+      height: 2px;
+      border-top: 2px dashed map.get(vars.$colors, 'border');
+
+      @include mix.respond-to('md') {
+        display: none;
+      }
+    }
+  }
+
+  &__step-icon {
+    @extend %flex-center;
+    width: 80px;
+    height: 80px;
+    border-radius: map.get(vars.$radii, 'full');
+    @include mix.glass-effect(8px, 0.06);
+    margin: 0 auto map.get(vars.$spacing, 'md');
+    position: relative;
+    color: map.get(vars.$colors, 'pink');
+
+    svg {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  &__step-num {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 28px;
+    height: 28px;
+    border-radius: map.get(vars.$radii, 'full');
+    background: linear-gradient(
+      135deg,
+      map.get(vars.$colors, 'pink'),
+      map.get(vars.$colors, 'purple')
+    );
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: fn.rem(13);
+    font-weight: 700;
+    color: white;
+    @extend %flex-center;
+  }
+
+  &__step-title {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: fn.rem(18);
+    font-weight: 700;
+    color: map.get(vars.$colors, 'white');
+    margin-bottom: map.get(vars.$spacing, 'sm');
+  }
+
+  &__step-desc {
+    font-size: fn.rem(14);
+    color: map.get(vars.$colors, 'muted');
+    line-height: 1.7;
+  }
+}
+
+// Mood showcase section
+.mood-section {
+  @extend %section-padding;
+  max-width: 1280px;
+  margin: 0 auto;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: map.get(vars.$spacing, 'md');
+
+    @include mix.respond-to('lg') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include mix.respond-to('sm') {
+      grid-template-columns: repeat(2, 1fr);
+      gap: map.get(vars.$spacing, 'sm');
+    }
+  }
+}
+
+// Testimonials section
+.testimonials-section {
+  @extend %section-padding;
+  background: map.get(vars.$colors, 'dark-card');
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: map.get(vars.$spacing, 'xl');
+    max-width: 1280px;
+    margin: 0 auto;
+
+    @include mix.respond-to('lg') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include mix.respond-to('md') {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+// CTA banner
+.cta-section {
+  @extend %section-padding;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(map.get(vars.$colors, 'pink'), 0.15),
+      rgba(map.get(vars.$colors, 'purple'), 0.15),
+      rgba(map.get(vars.$colors, 'blue'), 0.1)
+    );
+    z-index: 0;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: fn.z('raised');
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    font-weight: 800;
+    color: map.get(vars.$colors, 'white');
+    margin-bottom: map.get(vars.$spacing, 'md');
+
+    .highlight {
+      @include mix.gradient-text(
+        map.get(vars.$colors, 'pink'),
+        map.get(vars.$colors, 'orange')
+      );
+    }
+  }
+
+  &__subtitle {
+    font-size: fn.rem(16);
+    color: map.get(vars.$colors, 'muted');
+    margin-bottom: map.get(vars.$spacing, '2xl');
+  }
+}

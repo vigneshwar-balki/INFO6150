@@ -1,0 +1,228 @@
+// ============================================================
+// MODAL — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/functions' as fn;
+@use '../abstracts/placeholders' as ph;
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: map.get(vars.$colors, 'overlay');
+  z-index: fn.z('overlay');
+  @extend %flex-center;
+  padding: map.get(vars.$spacing, 'xl');
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity map.get(vars.$transitions, 'normal');
+
+  &.is-open {
+    opacity: 1;
+    pointer-events: all;
+
+    .modal {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
+}
+
+.modal {
+  @extend %card-base;
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(20px) scale(0.97);
+  opacity: 0;
+  transition: transform map.get(vars.$transitions, 'spring'),
+              opacity map.get(vars.$transitions, 'normal');
+  position: relative;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: map.get(vars.$colors, 'border');
+    border-radius: 2px;
+  }
+
+  &__close {
+    position: absolute;
+    top: map.get(vars.$spacing, 'md');
+    right: map.get(vars.$spacing, 'md');
+    @extend %flex-center;
+    width: 36px;
+    height: 36px;
+    border-radius: map.get(vars.$radii, 'full');
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid map.get(vars.$colors, 'border');
+    color: map.get(vars.$colors, 'muted');
+    cursor: pointer;
+    transition: all map.get(vars.$transitions, 'fast');
+    z-index: fn.z('raised');
+
+    &:hover {
+      background: rgba(map.get(vars.$colors, 'pink'), 0.15);
+      border-color: map.get(vars.$colors, 'pink');
+      color: map.get(vars.$colors, 'pink');
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 0;
+
+    @include mix.respond-to('md') {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__art {
+    aspect-ratio: 1;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    min-height: 200px;
+
+    @include mix.respond-to('md') {
+      aspect-ratio: 16/7;
+    }
+  }
+
+  &__details {
+    padding: map.get(vars.$spacing, 'xl');
+    display: flex;
+    flex-direction: column;
+    gap: map.get(vars.$spacing, 'md');
+  }
+
+  &__name {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: fn.rem(22);
+    font-weight: 800;
+    color: map.get(vars.$colors, 'white');
+    padding-right: 48px;
+  }
+
+  &__mood-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 12px;
+    border-radius: map.get(vars.$radii, 'full');
+    font-size: fn.rem(12);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: rgba(map.get(vars.$colors, 'pink'), 0.2);
+    color: map.get(vars.$colors, 'pink');
+    width: fit-content;
+  }
+
+  &__stats {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'xl'));
+    padding: map.get(vars.$spacing, 'md') 0;
+    border-top: 1px solid map.get(vars.$colors, 'border');
+    border-bottom: 1px solid map.get(vars.$colors, 'border');
+
+    &-item {
+      text-align: center;
+
+      .stat-value {
+        font-family: #{map.get(vars.$fonts, 'heading')};
+        font-size: fn.rem(20);
+        font-weight: 700;
+        @include mix.gradient-text(
+          map.get(vars.$colors, 'pink'),
+          map.get(vars.$colors, 'purple')
+        );
+        display: block;
+      }
+
+      .stat-label {
+        font-size: fn.rem(11);
+        color: map.get(vars.$colors, 'muted');
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+    }
+  }
+
+  &__description {
+    font-size: fn.rem(14);
+    color: map.get(vars.$colors, 'muted');
+    line-height: 1.7;
+  }
+
+  &__tracks {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-top: 1px solid map.get(vars.$colors, 'border');
+    padding-top: map.get(vars.$spacing, 'md');
+  }
+
+  &__track-row {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'md'));
+    padding: map.get(vars.$spacing, 'sm');
+    border-radius: map.get(vars.$radii, 'md');
+    transition: background map.get(vars.$transitions, 'fast');
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tr-num {
+      width: 20px;
+      font-size: fn.rem(12);
+      color: map.get(vars.$colors, 'muted');
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .tr-info {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .tr-name {
+      font-size: fn.rem(14);
+      font-weight: 500;
+      color: map.get(vars.$colors, 'white');
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tr-artist {
+      font-size: fn.rem(12);
+      color: map.get(vars.$colors, 'muted');
+    }
+
+    .tr-dur {
+      font-size: fn.rem(12);
+      color: map.get(vars.$colors, 'muted');
+      flex-shrink: 0;
+    }
+  }
+
+  &__actions {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'md'));
+    border-top: 1px solid map.get(vars.$colors, 'border');
+    padding-top: map.get(vars.$spacing, 'md');
+    flex-wrap: wrap;
+  }
+}

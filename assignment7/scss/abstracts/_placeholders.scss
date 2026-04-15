@@ -1,0 +1,62 @@
+// ============================================================
+// PLACEHOLDERS — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use 'variables' as vars;
+
+// %flex-center — center content both axes
+%flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// %card-base — base dark card style
+%card-base {
+  background: map.get(vars.$colors, 'card-surface');
+  border-radius: map.get(vars.$radii, 'xl');
+  border: 1px solid map.get(vars.$colors, 'border');
+  overflow: hidden;
+  position: relative;
+}
+
+// %section-padding — consistent vertical section spacing
+%section-padding {
+  padding-top: map.get(vars.$spacing, '4xl');
+  padding-bottom: map.get(vars.$spacing, '4xl');
+  padding-left: map.get(vars.$spacing, 'xl');
+  padding-right: map.get(vars.$spacing, 'xl');
+}
+
+// %gradient-border — gradient border via pseudo-element on hover
+%gradient-border {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      map.get(vars.$colors, 'pink'),
+      map.get(vars.$colors, 'purple'),
+      map.get(vars.$colors, 'blue')
+    );
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+// %glass-card — glass morphism card
+%glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: map.get(vars.$radii, 'xl');
+}

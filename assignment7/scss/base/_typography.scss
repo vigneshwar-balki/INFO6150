@@ -1,0 +1,90 @@
+// ============================================================
+// TYPOGRAPHY — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/functions' as fn;
+
+// Display headings
+.display-xl {
+  font-family: #{map.get(vars.$fonts, 'heading')};
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.display-lg {
+  font-family: #{map.get(vars.$fonts, 'heading')};
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.display-md {
+  font-family: #{map.get(vars.$fonts, 'heading')};
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+// Section headings
+.section-title {
+  font-family: #{map.get(vars.$fonts, 'heading')};
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: map.get(vars.$spacing, 'md');
+
+  .highlight {
+    @include mix.gradient-text(
+      map.get(vars.$colors, 'pink'),
+      map.get(vars.$colors, 'purple')
+    );
+  }
+}
+
+.section-subtitle {
+  font-size: fn.rem(18);
+  color: map.get(vars.$colors, 'muted');
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+// Gradient text utilities
+.text-gradient-pink-purple {
+  @include mix.gradient-text(
+    map.get(vars.$colors, 'pink'),
+    map.get(vars.$colors, 'purple')
+  );
+}
+
+.text-gradient-blue-teal {
+  @include mix.gradient-text(
+    map.get(vars.$colors, 'blue'),
+    map.get(vars.$colors, 'teal')
+  );
+}
+
+.text-gradient-orange-pink {
+  @include mix.gradient-text(
+    map.get(vars.$colors, 'orange'),
+    map.get(vars.$colors, 'pink')
+  );
+}
+
+// Muted text utility
+.text-muted {
+  color: map.get(vars.$colors, 'muted');
+}
+
+// Small label / badge text
+.label-sm {
+  font-size: fn.rem(12);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

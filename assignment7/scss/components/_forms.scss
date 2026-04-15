@@ -1,0 +1,287 @@
+// ============================================================
+// FORMS — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/functions' as fn;
+@use '../abstracts/placeholders' as ph;
+
+// Form group
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: map.get(vars.$spacing, 'xs');
+
+  label {
+    font-size: fn.rem(13);
+    font-weight: 600;
+    color: map.get(vars.$colors, 'muted');
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+}
+
+// Text inputs
+.input {
+  background: map.get(vars.$colors, 'card-surface');
+  border: 1px solid map.get(vars.$colors, 'border');
+  border-radius: map.get(vars.$radii, 'md');
+  padding: map.get(vars.$spacing, 'sm') map.get(vars.$spacing, 'md');
+  color: map.get(vars.$colors, 'white');
+  font-size: fn.rem(15);
+  width: 100%;
+  transition: border-color map.get(vars.$transitions, 'fast'),
+              box-shadow map.get(vars.$transitions, 'fast');
+
+  &::placeholder {
+    color: map.get(vars.$colors, 'muted');
+  }
+
+  &:focus {
+    border-color: map.get(vars.$colors, 'pink');
+    box-shadow: 0 0 0 3px rgba(map.get(vars.$colors, 'pink'), 0.15);
+  }
+}
+
+// Textarea
+.textarea {
+  background: map.get(vars.$colors, 'card-surface');
+  border: 1px solid map.get(vars.$colors, 'border');
+  border-radius: map.get(vars.$radii, 'md');
+  padding: map.get(vars.$spacing, 'sm') map.get(vars.$spacing, 'md');
+  color: map.get(vars.$colors, 'white');
+  font-size: fn.rem(15);
+  width: 100%;
+  transition: border-color map.get(vars.$transitions, 'fast'),
+              box-shadow map.get(vars.$transitions, 'fast');
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+
+  &::placeholder {
+    color: map.get(vars.$colors, 'muted');
+  }
+
+  &:focus {
+    border-color: map.get(vars.$colors, 'pink');
+    box-shadow: 0 0 0 3px rgba(map.get(vars.$colors, 'pink'), 0.15);
+  }
+}
+
+// Select
+.select {
+  background: map.get(vars.$colors, 'card-surface');
+  border: 1px solid map.get(vars.$colors, 'border');
+  border-radius: map.get(vars.$radii, 'md');
+  padding: map.get(vars.$spacing, 'sm') map.get(vars.$spacing, 'md');
+  color: map.get(vars.$colors, 'white');
+  font-size: fn.rem(15);
+  width: 100%;
+  transition: border-color map.get(vars.$transitions, 'fast');
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+  cursor: pointer;
+
+  option {
+    background: map.get(vars.$colors, 'card-surface');
+    color: map.get(vars.$colors, 'white');
+  }
+
+  &:focus {
+    border-color: map.get(vars.$colors, 'pink');
+  }
+}
+
+// Search bar
+.search-bar {
+  position: relative;
+  max-width: 560px;
+  width: 100%;
+
+  &__icon {
+    position: absolute;
+    left: map.get(vars.$spacing, 'md');
+    top: 50%;
+    transform: translateY(-50%);
+    color: map.get(vars.$colors, 'muted');
+    pointer-events: none;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  input {
+    background: map.get(vars.$colors, 'card-surface');
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: map.get(vars.$radii, 'full');
+    padding: 0 map.get(vars.$spacing, 'md') 0 44px;
+    color: map.get(vars.$colors, 'white');
+    font-size: fn.rem(16);
+    height: 52px;
+    width: 100%;
+    transition: border-color map.get(vars.$transitions, 'fast');
+
+    &::placeholder {
+      color: map.get(vars.$colors, 'muted');
+    }
+
+    &:focus {
+      border-color: map.get(vars.$colors, 'pink');
+      box-shadow: 0 0 0 3px rgba(map.get(vars.$colors, 'pink'), 0.15);
+    }
+  }
+}
+
+// CTA inline form
+.cta-form {
+  @include mix.flex-layout(row, stretch, flex-start, map.get(vars.$spacing, 'sm'));
+  max-width: 480px;
+  margin: 0 auto;
+
+  @include mix.respond-to('sm') {
+    flex-direction: column;
+  }
+
+  input {
+    background: map.get(vars.$colors, 'card-surface');
+    border: 1px solid map.get(vars.$colors, 'border');
+    border-radius: map.get(vars.$radii, 'full');
+    padding: 0 map.get(vars.$spacing, 'lg');
+    color: map.get(vars.$colors, 'white');
+    font-size: fn.rem(14);
+    flex: 1;
+    height: 52px;
+
+    &::placeholder {
+      color: map.get(vars.$colors, 'muted');
+    }
+
+    &:focus {
+      border-color: map.get(vars.$colors, 'pink');
+    }
+  }
+}
+
+// Privacy toggle
+.toggle {
+  @include mix.flex-layout(row, center, space-between);
+
+  &__label {
+    font-size: fn.rem(14);
+    color: map.get(vars.$colors, 'white');
+    font-weight: 500;
+  }
+
+  &__switch {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    cursor: pointer;
+
+    input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      position: absolute;
+
+      &:checked + .toggle__track {
+        background: map.get(vars.$colors, 'pink');
+
+        .toggle__thumb {
+          transform: translateX(20px);
+        }
+      }
+    }
+
+    .toggle__track {
+      position: absolute;
+      inset: 0;
+      border-radius: map.get(vars.$radii, 'full');
+      background: map.get(vars.$colors, 'card-surface');
+      border: 1px solid map.get(vars.$colors, 'border');
+      transition: background map.get(vars.$transitions, 'fast');
+    }
+
+    .toggle__thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: map.get(vars.$radii, 'full');
+      background: white;
+      transition: transform map.get(vars.$transitions, 'spring');
+    }
+  }
+}
+
+// Cover art options
+.cover-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: map.get(vars.$spacing, 'sm');
+
+  .cover-option {
+    aspect-ratio: 1;
+    border-radius: map.get(vars.$radii, 'lg');
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color map.get(vars.$transitions, 'fast'),
+                transform map.get(vars.$transitions, 'fast');
+
+    &:hover {
+      transform: scale(1.03);
+    }
+
+    &.selected {
+      border-color: map.get(vars.$colors, 'white');
+      box-shadow: 0 0 0 3px rgba(map.get(vars.$colors, 'pink'), 0.4);
+    }
+
+    &--1 {
+      background: linear-gradient(135deg, map.get(vars.$colors, 'pink'), map.get(vars.$colors, 'purple'));
+    }
+    &--2 {
+      background: linear-gradient(135deg, map.get(vars.$colors, 'blue'), map.get(vars.$colors, 'teal'));
+    }
+    &--3 {
+      background: linear-gradient(135deg, map.get(vars.$colors, 'orange'), map.get(vars.$colors, 'pink'));
+    }
+    &--4 {
+      background: linear-gradient(135deg, map.get(vars.$colors, 'purple'), map.get(vars.$colors, 'blue'));
+    }
+  }
+}
+
+// Create playlist form section
+.create-form {
+  @extend %card-base;
+  padding: map.get(vars.$spacing, '2xl');
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: map.get(vars.$spacing, 'xl');
+
+    @include mix.respond-to('md') {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__col {
+    display: flex;
+    flex-direction: column;
+    gap: map.get(vars.$spacing, 'lg');
+  }
+
+  &__submit {
+    grid-column: 1 / -1;
+  }
+}

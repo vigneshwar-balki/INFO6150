@@ -1,0 +1,330 @@
+// ============================================================
+// PLAYLISTS PAGE — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/functions' as fn;
+@use '../abstracts/placeholders' as ph;
+
+// Mood filter bar — sticky
+.filter-bar {
+  position: sticky;
+  top: 72px;
+  z-index: fn.z('overlay');
+  @include mix.glass-effect(20px, 0.06);
+  border-bottom: 1px solid map.get(vars.$colors, 'border');
+  padding: map.get(vars.$spacing, 'md') map.get(vars.$spacing, 'xl');
+
+  &__inner {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'sm'));
+    max-width: 1280px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: map.get(vars.$spacing, 'sm');
+  }
+
+  &__btn {
+    padding: map.get(vars.$spacing, 'xs') map.get(vars.$spacing, 'lg');
+    border-radius: map.get(vars.$radii, 'full');
+    font-size: fn.rem(13);
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid map.get(vars.$colors, 'border');
+    background: transparent;
+    color: map.get(vars.$colors, 'muted');
+    transition: all map.get(vars.$transitions, 'fast');
+    white-space: nowrap;
+    font-family: #{map.get(vars.$fonts, 'body')};
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: map.get(vars.$colors, 'white');
+    }
+
+    &.active {
+      background: linear-gradient(
+        135deg,
+        map.get(vars.$colors, 'pink'),
+        map.get(vars.$colors, 'purple')
+      );
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 4px 12px rgba(map.get(vars.$colors, 'pink'), 0.3);
+    }
+  }
+}
+
+// Sort / view bar
+.sort-bar {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: map.get(vars.$spacing, 'md') map.get(vars.$spacing, 'xl');
+  @include mix.flex-layout(row, center, space-between);
+  gap: map.get(vars.$spacing, 'md');
+  flex-wrap: wrap;
+
+  &__count {
+    font-size: fn.rem(14);
+    color: map.get(vars.$colors, 'muted');
+
+    span {
+      color: map.get(vars.$colors, 'white');
+      font-weight: 700;
+    }
+  }
+
+  &__right {
+    @include mix.flex-layout(row, center, flex-end, map.get(vars.$spacing, 'md'));
+  }
+
+  &__sort {
+    background: map.get(vars.$colors, 'card-surface');
+    border: 1px solid map.get(vars.$colors, 'border');
+    border-radius: map.get(vars.$radii, 'full');
+    padding: map.get(vars.$spacing, 'xs') 36px map.get(vars.$spacing, 'xs') map.get(vars.$spacing, 'md');
+    color: map.get(vars.$colors, 'white');
+    font-size: fn.rem(13);
+    height: 36px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+    font-family: #{map.get(vars.$fonts, 'body')};
+
+    option {
+      background: map.get(vars.$colors, 'card-surface');
+    }
+
+    &:focus {
+      border-color: map.get(vars.$colors, 'pink');
+    }
+  }
+
+  &__view-toggle {
+    @include mix.flex-layout(row, center, flex-end, 4px);
+
+    button {
+      @extend %flex-center;
+      width: 36px;
+      height: 36px;
+      border-radius: map.get(vars.$radii, 'md');
+      background: transparent;
+      border: 1px solid map.get(vars.$colors, 'border');
+      color: map.get(vars.$colors, 'muted');
+      cursor: pointer;
+      transition: all map.get(vars.$transitions, 'fast');
+
+      &.active {
+        background: map.get(vars.$colors, 'card-surface');
+        border-color: map.get(vars.$colors, 'pink');
+        color: map.get(vars.$colors, 'pink');
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}
+
+// Featured playlist
+.featured-playlist {
+  max-width: 1280px;
+  margin: 0 auto map.get(vars.$spacing, '2xl');
+  padding: 0 map.get(vars.$spacing, 'xl');
+
+  &__inner {
+    @extend %card-base;
+    @include mix.flex-layout(row, stretch, flex-start, 0);
+    overflow: hidden;
+
+    @include mix.respond-to('md') {
+      flex-direction: column;
+    }
+  }
+
+  &__art {
+    flex: 0 0 320px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    @include mix.respond-to('md') {
+      flex: none;
+      height: 240px;
+    }
+
+    .art-cell {
+      display: block;
+    }
+  }
+
+  &__details {
+    flex: 1;
+    padding: map.get(vars.$spacing, '2xl');
+    @include mix.flex-layout(column, flex-start, center, map.get(vars.$spacing, 'md'));
+  }
+
+  &__badge {
+    font-size: fn.rem(11);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: map.get(vars.$colors, 'orange');
+    background: rgba(map.get(vars.$colors, 'orange'), 0.15);
+    padding: 2px 10px;
+    border-radius: map.get(vars.$radii, 'full');
+    width: fit-content;
+  }
+
+  &__title {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: fn.rem(28);
+    font-weight: 800;
+    color: map.get(vars.$colors, 'white');
+  }
+
+  &__desc {
+    font-size: fn.rem(15);
+    color: map.get(vars.$colors, 'muted');
+    line-height: 1.7;
+    max-width: 400px;
+  }
+
+  &__meta {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'xl'));
+    font-size: fn.rem(14);
+    color: map.get(vars.$colors, 'muted');
+    border-top: 1px solid map.get(vars.$colors, 'border');
+    padding-top: map.get(vars.$spacing, 'md');
+    width: 100%;
+    flex-wrap: wrap;
+    gap: map.get(vars.$spacing, 'md');
+
+    strong {
+      color: map.get(vars.$colors, 'white');
+    }
+  }
+
+  &__actions {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'md'));
+    flex-wrap: wrap;
+  }
+}
+
+// Playlist grid
+.playlist-grid-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 map.get(vars.$spacing, 'xl') map.get(vars.$spacing, '3xl');
+}
+
+#playlist-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: map.get(vars.$spacing, 'lg');
+  transition: all map.get(vars.$transitions, 'normal');
+
+  @include mix.respond-to('xl') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include mix.respond-to('lg') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mix.respond-to('sm') {
+    grid-template-columns: 1fr;
+  }
+
+  &.list-view {
+    grid-template-columns: 1fr;
+    gap: map.get(vars.$spacing, 'sm');
+  }
+}
+
+// Live preview
+.live-preview {
+  @extend %card-base;
+  padding: map.get(vars.$spacing, 'xl');
+  margin-top: map.get(vars.$spacing, 'xl');
+
+  &__title {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: fn.rem(16);
+    font-weight: 700;
+    color: map.get(vars.$colors, 'white');
+    margin-bottom: map.get(vars.$spacing, 'md');
+  }
+
+  &__mini-card {
+    @extend %card-base;
+    width: 200px;
+    overflow: hidden;
+
+    .mini-art {
+      height: 100px;
+      background: linear-gradient(
+        135deg,
+        map.get(vars.$colors, 'pink'),
+        map.get(vars.$colors, 'purple')
+      );
+      transition: background map.get(vars.$transitions, 'normal');
+    }
+
+    .mini-body {
+      padding: map.get(vars.$spacing, 'sm');
+    }
+
+    .mini-name {
+      font-family: #{map.get(vars.$fonts, 'heading')};
+      font-size: fn.rem(14);
+      font-weight: 700;
+      color: map.get(vars.$colors, 'white');
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mini-mood {
+      font-size: fn.rem(11);
+      color: map.get(vars.$colors, 'muted');
+      margin-top: 2px;
+    }
+  }
+}
+
+// Create section wrapper
+.create-section {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: map.get(vars.$spacing, '2xl') map.get(vars.$spacing, 'xl');
+
+  &__header {
+    margin-bottom: map.get(vars.$spacing, 'xl');
+  }
+
+  &__title {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: fn.rem(28);
+    font-weight: 800;
+    color: map.get(vars.$colors, 'white');
+    margin-bottom: map.get(vars.$spacing, 'xs');
+
+    span {
+      @include mix.gradient-text(
+        map.get(vars.$colors, 'blue'),
+        map.get(vars.$colors, 'teal')
+      );
+    }
+  }
+
+  &__desc {
+    font-size: fn.rem(15);
+    color: map.get(vars.$colors, 'muted');
+  }
+}

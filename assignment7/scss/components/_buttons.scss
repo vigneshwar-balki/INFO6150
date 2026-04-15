@@ -1,0 +1,157 @@
+// ============================================================
+// BUTTONS — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/functions' as fn;
+@use '../abstracts/placeholders' as ph;
+
+// Base button
+.btn {
+  @extend %flex-center;
+  display: inline-flex;
+  gap: map.get(vars.$spacing, 'sm');
+  padding: map.get(vars.$spacing, 'sm') map.get(vars.$spacing, 'xl');
+  border-radius: map.get(vars.$radii, 'full');
+  font-family: #{map.get(vars.$fonts, 'body')};
+  font-size: fn.rem(14);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all map.get(vars.$transitions, 'normal');
+  white-space: nowrap;
+  border: none;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  &--primary {
+    background: linear-gradient(
+      135deg,
+      map.get(vars.$colors, 'pink'),
+      map.get(vars.$colors, 'purple')
+    );
+    color: map.get(vars.$colors, 'white');
+    box-shadow: 0 4px 20px rgba(map.get(vars.$colors, 'pink'), 0.35);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(map.get(vars.$colors, 'pink'), 0.5);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  &--secondary {
+    background: transparent;
+    color: map.get(vars.$colors, 'white');
+    border: 1px solid map.get(vars.$colors, 'border');
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-2px);
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: map.get(vars.$colors, 'muted');
+    padding: map.get(vars.$spacing, 'sm') map.get(vars.$spacing, 'md');
+
+    &:hover {
+      color: map.get(vars.$colors, 'white');
+    }
+  }
+
+  &--blue {
+    background: linear-gradient(
+      135deg,
+      map.get(vars.$colors, 'blue'),
+      map.get(vars.$colors, 'teal')
+    );
+    color: map.get(vars.$colors, 'white');
+    box-shadow: 0 4px 20px rgba(map.get(vars.$colors, 'blue'), 0.35);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(map.get(vars.$colors, 'blue'), 0.5);
+    }
+  }
+
+  &--sm {
+    padding: map.get(vars.$spacing, 'xs') map.get(vars.$spacing, 'md');
+    font-size: fn.rem(12);
+  }
+
+  &--lg {
+    padding: map.get(vars.$spacing, 'md') map.get(vars.$spacing, '2xl');
+    font-size: fn.rem(16);
+  }
+
+  &--icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: map.get(vars.$radii, 'full');
+    background: map.get(vars.$colors, 'card-surface');
+    border: 1px solid map.get(vars.$colors, 'border');
+    color: map.get(vars.$colors, 'muted');
+
+    &:hover {
+      border-color: map.get(vars.$colors, 'pink');
+      color: map.get(vars.$colors, 'pink');
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &--active,
+  &.active {
+    background: linear-gradient(
+      135deg,
+      map.get(vars.$colors, 'pink'),
+      map.get(vars.$colors, 'purple')
+    ) !important;
+    color: map.get(vars.$colors, 'white') !important;
+    border-color: transparent !important;
+  }
+}
+
+// Play button circular
+.play-btn {
+  @extend %flex-center;
+  width: 56px;
+  height: 56px;
+  border-radius: map.get(vars.$radii, 'full');
+  background: linear-gradient(
+    135deg,
+    map.get(vars.$colors, 'pink'),
+    map.get(vars.$colors, 'purple')
+  );
+  box-shadow: 0 4px 20px rgba(map.get(vars.$colors, 'pink'), 0.4);
+  cursor: pointer;
+  transition: all map.get(vars.$transitions, 'spring');
+  flex-shrink: 0;
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 30px rgba(map.get(vars.$colors, 'pink'), 0.6);
+  }
+
+  svg {
+    width: 22px;
+    height: 22px;
+    color: white;
+    fill: white;
+  }
+}

@@ -1,0 +1,65 @@
+// ============================================================
+// MAIN — Melodiq
+// Entry point: @use all partials in correct dependency order
+// ============================================================
+
+@use 'sass:map';
+
+// 1. Abstracts (no output — variables, functions, mixins, placeholders)
+@use 'abstracts/variables' as vars;
+@use 'abstracts/functions' as fn;
+@use 'abstracts/mixins' as mix;
+@use 'abstracts/placeholders';
+
+// 2. Base (global resets & typography)
+@use 'base/reset';
+@use 'base/typography';
+
+// 3. Layout (structural blocks)
+@use 'layout/navbar';
+@use 'layout/grid';
+@use 'layout/footer';
+
+// 4. Components (reusable UI pieces)
+@use 'components/buttons';
+@use 'components/cards';
+@use 'components/forms';
+@use 'components/hero';
+@use 'components/modal';
+
+// 5. Pages (page-specific overrides)
+@use 'pages/home';
+@use 'pages/playlists';
+
+// ============================================================
+// CSS Custom Properties — #{} interpolation from maps
+// ============================================================
+:root {
+  // Colors via #{} interpolation
+  --color-pink:         #{map.get(vars.$colors, 'pink')};
+  --color-purple:       #{map.get(vars.$colors, 'purple')};
+  --color-blue:         #{map.get(vars.$colors, 'blue')};
+  --color-orange:       #{map.get(vars.$colors, 'orange')};
+  --color-teal:         #{map.get(vars.$colors, 'teal')};
+  --color-white:        #{map.get(vars.$colors, 'white')};
+  --color-muted:        #{map.get(vars.$colors, 'muted')};
+  --color-deep-black:   #{map.get(vars.$colors, 'deep-black')};
+  --color-card-surface: #{map.get(vars.$colors, 'card-surface')};
+
+  // Fonts via #{} interpolation
+  --font-heading: #{map.get(vars.$fonts, 'heading')};
+  --font-body:    #{map.get(vars.$fonts, 'body')};
+
+  // Spacing via #{} interpolation
+  --spacing-md: #{map.get(vars.$spacing, 'md')};
+  --spacing-xl: #{map.get(vars.$spacing, 'xl')};
+  --spacing-2xl: #{map.get(vars.$spacing, '2xl')};
+
+  // Transitions via #{} interpolation
+  --transition-normal: #{map.get(vars.$transitions, 'normal')};
+  --transition-spring: #{map.get(vars.$transitions, 'spring')};
+
+  // Radii via #{} interpolation
+  --radius-full: #{map.get(vars.$radii, 'full')};
+  --radius-xl:   #{map.get(vars.$radii, 'xl')};
+}

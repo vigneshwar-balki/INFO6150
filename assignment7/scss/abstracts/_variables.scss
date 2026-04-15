@@ -1,0 +1,81 @@
+// ============================================================
+// VARIABLES — Melodiq Design System
+// ============================================================
+
+@use 'sass:map';
+
+// Color Map
+$colors: (
+  'deep-black':   #0a0a0f,
+  'card-surface': #1a1a2e,
+  'pink':         #ff006e,
+  'purple':       #8338ec,
+  'blue':         #3a86ff,
+  'orange':       #ff8c00,
+  'teal':         #00d4aa,
+  'white':        #f5f5f5,
+  'muted':        #888888,
+  'dark-card':    #12121f,
+  'border':       rgba(255, 255, 255, 0.08),
+  'overlay':      rgba(10, 10, 15, 0.85),
+);
+
+// Font Map
+$fonts: (
+  'heading': "'Syne', sans-serif",
+  'body':    "'Inter', sans-serif",
+  'mono':    "'Courier New', monospace",
+);
+
+// Spacing Map (base 4px)
+$spacing: (
+  'xs':   0.25rem,
+  'sm':   0.5rem,
+  'md':   1rem,
+  'lg':   1.5rem,
+  'xl':   2rem,
+  '2xl':  3rem,
+  '3xl':  4rem,
+  '4xl':  6rem,
+  '5xl':  8rem,
+);
+
+// Breakpoints Map
+$breakpoints: (
+  'xs':  320px,
+  'sm':  480px,
+  'md':  768px,
+  'lg':  1024px,
+  'xl':  1280px,
+  '2xl': 1440px,
+);
+
+// Border Radius Map
+$radii: (
+  'sm':   4px,
+  'md':   8px,
+  'lg':   12px,
+  'xl':   16px,
+  '2xl':  24px,
+  'full': 9999px,
+);
+
+// Transitions Map
+$transitions: (
+  'fast':   0.15s ease,
+  'normal': 0.25s ease,
+  'slow':   0.4s ease,
+  'spring': 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+);
+
+// Mood Colors Map — 8 moods (start color, end color)
+$moods: (
+  'happy':    (#ff006e, #ff8c00),
+  'chill':    (#3a86ff, #00d4aa),
+  'focus':    (#8338ec, #3a86ff),
+  'sad':      (#2c3e7d, #3a86ff),
+  'energy':   (#ff006e, #8338ec),
+  'romantic': (#c2185b, #ff006e),
+  'party':    (#ff8c00, #ff006e),
+  'sleep':    (#0d1b2a, #1a1a2e),
+);

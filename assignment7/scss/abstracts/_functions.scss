@@ -1,0 +1,35 @@
+// ============================================================
+// FUNCTIONS — Melodiq
+// ============================================================
+
+@use 'sass:math';
+@use 'sass:map';
+
+// rem() — convert px to rem (base 16px)
+@function rem($px) {
+  @return math.div($px, 16) * 1rem;
+}
+
+// z() — retrieve z-index from map
+// z-indices are passed in or the map is imported at call sites
+$z-indices: (
+  'base':    0,
+  'raised':  10,
+  'overlay': 100,
+  'modal':   200,
+  'nav':     300,
+  'toast':   400,
+);
+
+@function z($key) {
+  @if map.has-key($z-indices, $key) {
+    @return map.get($z-indices, $key);
+  }
+  @warn "z-index key '#{$key}' not found in $z-indices map.";
+  @return 0;
+}
+
+// mood-opacity() — returns rgba of a mood color at given opacity
+@function mood-opacity($color, $opacity: 0.15) {
+  @return rgba($color, $opacity);
+}

@@ -1,0 +1,98 @@
+// ============================================================
+// GRID LAYOUT — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/functions' as fn;
+
+// Container
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 map.get(vars.$spacing, 'xl');
+
+  @include mix.respond-to('md') {
+    padding: 0 map.get(vars.$spacing, 'lg');
+  }
+
+  @include mix.respond-to('sm') {
+    padding: 0 map.get(vars.$spacing, 'md');
+  }
+}
+
+// Grid utilities
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: map.get(vars.$spacing, 'xl');
+
+  @include mix.respond-to('md') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: map.get(vars.$spacing, 'xl');
+
+  @include mix.respond-to('lg') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mix.respond-to('md') {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: map.get(vars.$spacing, 'lg');
+
+  @include mix.respond-to('lg') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include mix.respond-to('sm') {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Hero grid
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: map.get(vars.$spacing, '3xl');
+  align-items: center;
+
+  @include mix.respond-to('lg') {
+    grid-template-columns: 1fr;
+    gap: map.get(vars.$spacing, '2xl');
+  }
+}
+
+// Section wrapper
+.section {
+  padding: map.get(vars.$spacing, '4xl') map.get(vars.$spacing, 'xl');
+
+  @include mix.respond-to('md') {
+    padding: map.get(vars.$spacing, '2xl') map.get(vars.$spacing, 'md');
+  }
+
+  &--centered {
+    text-align: center;
+
+    .section-title,
+    .section-subtitle {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &__header {
+    margin-bottom: map.get(vars.$spacing, '2xl');
+  }
+}

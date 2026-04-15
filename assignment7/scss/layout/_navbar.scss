@@ -1,0 +1,100 @@
+// ============================================================
+// NAVBAR — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/functions' as fn;
+@use '../abstracts/placeholders' as ph;
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: fn.z('nav');
+  @include mix.glass-effect(20px, 0.06);
+  border-bottom: 1px solid map.get(vars.$colors, 'border');
+  padding: 0 map.get(vars.$spacing, 'xl');
+  height: 72px;
+
+  &__inner {
+    @extend %flex-center;
+    justify-content: space-between;
+    max-width: 1280px;
+    margin: 0 auto;
+    height: 100%;
+  }
+
+  &__brand {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'sm'));
+    text-decoration: none;
+
+    &-logo {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+
+    &-name {
+      font-family: #{map.get(vars.$fonts, 'heading')};
+      font-size: fn.rem(22);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      @include mix.gradient-text(
+        map.get(vars.$colors, 'pink'),
+        map.get(vars.$colors, 'purple')
+      );
+    }
+  }
+
+  &__links {
+    @include mix.flex-layout(row, center, center, map.get(vars.$spacing, 'xl'));
+
+    @include mix.respond-to('md') {
+      display: none;
+    }
+
+    a {
+      font-size: fn.rem(14);
+      font-weight: 500;
+      color: map.get(vars.$colors, 'muted');
+      transition: color map.get(vars.$transitions, 'fast');
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          map.get(vars.$colors, 'pink'),
+          map.get(vars.$colors, 'purple')
+        );
+        transition: width map.get(vars.$transitions, 'normal');
+      }
+
+      &:hover {
+        color: map.get(vars.$colors, 'white');
+
+        &::after {
+          width: 100%;
+        }
+      }
+
+      &.active {
+        color: map.get(vars.$colors, 'white');
+
+        &::after {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  &__actions {
+    @include mix.flex-layout(row, center, flex-end, map.get(vars.$spacing, 'md'));
+  }
+}

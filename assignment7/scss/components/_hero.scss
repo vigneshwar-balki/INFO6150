@@ -1,0 +1,419 @@
+// ============================================================
+// HERO — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/functions' as fn;
+@use '../abstracts/placeholders' as ph;
+
+.hero {
+  @extend %section-padding;
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 72px);
+  @extend %flex-center;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    border-radius: map.get(vars.$radii, 'full');
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &::before {
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(
+      circle,
+      rgba(map.get(vars.$colors, 'pink'), 0.12) 0%,
+      transparent 70%
+    );
+    top: -200px;
+    right: -200px;
+  }
+
+  &::after {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(
+      circle,
+      rgba(map.get(vars.$colors, 'purple'), 0.1) 0%,
+      transparent 70%
+    );
+    bottom: -100px;
+    left: -100px;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: fn.z('raised');
+    max-width: 1280px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: map.get(vars.$spacing, 'xl');
+  }
+
+  &__badge {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'sm'));
+    @include mix.glass-effect(8px, 0.08);
+    display: inline-flex;
+    padding: map.get(vars.$spacing, 'xs') map.get(vars.$spacing, 'md');
+    border-radius: map.get(vars.$radii, 'full');
+    font-size: fn.rem(13);
+    font-weight: 600;
+    color: map.get(vars.$colors, 'pink');
+
+    &-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: map.get(vars.$radii, 'full');
+      background: map.get(vars.$colors, 'pink');
+      animation: pulse 2s infinite;
+    }
+  }
+
+  &__title {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: clamp(2.5rem, 5.5vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: map.get(vars.$colors, 'white');
+
+    .gradient-line {
+      @include mix.gradient-text(
+        map.get(vars.$colors, 'pink'),
+        map.get(vars.$colors, 'purple')
+      );
+      display: block;
+    }
+  }
+
+  &__subtitle {
+    font-size: fn.rem(18);
+    color: map.get(vars.$colors, 'muted');
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  &__actions {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'md'));
+
+    @include mix.respond-to('sm') {
+      flex-direction: column;
+      width: 100%;
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+
+  &__stats {
+    @include mix.flex-layout(row, flex-start, flex-start, map.get(vars.$spacing, '2xl'));
+    padding-top: map.get(vars.$spacing, 'lg');
+    border-top: 1px solid map.get(vars.$colors, 'border');
+    width: 100%;
+
+    @include mix.respond-to('sm') {
+      gap: map.get(vars.$spacing, 'xl');
+    }
+  }
+
+  &__stat {
+    &-value {
+      font-family: #{map.get(vars.$fonts, 'heading')};
+      font-size: fn.rem(28);
+      font-weight: 800;
+      @include mix.gradient-text(
+        map.get(vars.$colors, 'pink'),
+        map.get(vars.$colors, 'purple')
+      );
+      display: block;
+    }
+
+    &-label {
+      font-size: fn.rem(13);
+      color: map.get(vars.$colors, 'muted');
+    }
+  }
+}
+
+// ============================================================
+// MUSIC PLAYER MOCKUP
+// ============================================================
+.player-mockup {
+  @extend %glass-card;
+  @extend %gradient-border;
+  padding: map.get(vars.$spacing, 'xl');
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+
+  @include mix.respond-to('lg') {
+    max-width: 480px;
+  }
+
+  &__album {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: map.get(vars.$radii, 'xl');
+    background: linear-gradient(
+      135deg,
+      map.get(vars.$colors, 'pink'),
+      map.get(vars.$colors, 'purple'),
+      map.get(vars.$colors, 'blue')
+    );
+    margin-bottom: map.get(vars.$spacing, 'lg');
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      border-radius: map.get(vars.$radii, 'full');
+      background: rgba(0, 0, 0, 0.4);
+      border: 3px solid rgba(255, 255, 255, 0.2);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 14px;
+      height: 14px;
+      border-radius: map.get(vars.$radii, 'full');
+      background: map.get(vars.$colors, 'deep-black');
+    }
+
+    .sound-waves {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      @include mix.flex-layout(row, flex-end, center, 3px);
+
+      span {
+        width: 3px;
+        border-radius: 2px;
+        background: rgba(255, 255, 255, 0.7);
+        animation: wave 1s ease-in-out infinite;
+
+        @for $i from 1 through 7 {
+          &:nth-child(#{$i}) {
+            height: #{8 + ($i * 4)}px;
+            animation-delay: #{$i * 0.1}s;
+          }
+        }
+      }
+    }
+  }
+
+  &__info {
+    @include mix.flex-layout(row, center, space-between);
+    margin-bottom: map.get(vars.$spacing, 'md');
+  }
+
+  &__song-name {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: fn.rem(18);
+    font-weight: 700;
+    color: map.get(vars.$colors, 'white');
+  }
+
+  &__artist {
+    font-size: fn.rem(13);
+    color: map.get(vars.$colors, 'muted');
+  }
+
+  &__progress {
+    margin-bottom: map.get(vars.$spacing, 'md');
+
+    &-bar {
+      width: 100%;
+      height: 4px;
+      background: map.get(vars.$colors, 'border');
+      border-radius: map.get(vars.$radii, 'full');
+      overflow: visible;
+      margin-bottom: map.get(vars.$spacing, 'xs');
+      cursor: pointer;
+      position: relative;
+
+      &-fill {
+        height: 100%;
+        width: 38%;
+        background: linear-gradient(
+          90deg,
+          map.get(vars.$colors, 'pink'),
+          map.get(vars.$colors, 'purple')
+        );
+        border-radius: map.get(vars.$radii, 'full');
+        position: relative;
+
+        &::after {
+          content: '';
+          position: absolute;
+          right: -5px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 10px;
+          height: 10px;
+          border-radius: map.get(vars.$radii, 'full');
+          background: map.get(vars.$colors, 'white');
+          box-shadow: 0 0 6px rgba(map.get(vars.$colors, 'pink'), 0.8);
+        }
+      }
+    }
+
+    &-times {
+      @include mix.flex-layout(row, center, space-between);
+      font-size: fn.rem(11);
+      color: map.get(vars.$colors, 'muted');
+    }
+  }
+
+  &__controls {
+    @include mix.flex-layout(row, center, center, map.get(vars.$spacing, 'lg'));
+    margin-bottom: map.get(vars.$spacing, 'lg');
+
+    .ctrl-btn {
+      @extend %flex-center;
+      width: 36px;
+      height: 36px;
+      border-radius: map.get(vars.$radii, 'full');
+      cursor: pointer;
+      color: map.get(vars.$colors, 'muted');
+      transition: color map.get(vars.$transitions, 'fast');
+
+      &:hover {
+        color: map.get(vars.$colors, 'white');
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  &__tracks {
+    display: flex;
+    flex-direction: column;
+    gap: map.get(vars.$spacing, 'sm');
+    border-top: 1px solid map.get(vars.$colors, 'border');
+    padding-top: map.get(vars.$spacing, 'md');
+  }
+
+  &__track-item {
+    @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'sm'));
+    padding: map.get(vars.$spacing, 'sm');
+    border-radius: map.get(vars.$radii, 'md');
+    cursor: pointer;
+    transition: background map.get(vars.$transitions, 'fast');
+
+    &:hover,
+    &.active {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    &.active .track-num {
+      color: map.get(vars.$colors, 'pink');
+    }
+
+    .track-thumb {
+      width: 36px;
+      height: 36px;
+      border-radius: map.get(vars.$radii, 'sm');
+      flex-shrink: 0;
+    }
+
+    .track-num {
+      font-size: fn.rem(12);
+      color: map.get(vars.$colors, 'muted');
+      width: 16px;
+    }
+
+    .track-info {
+      flex: 1;
+      overflow: hidden;
+
+      .track-name {
+        font-size: fn.rem(13);
+        font-weight: 600;
+        color: map.get(vars.$colors, 'white');
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .track-artist {
+        font-size: fn.rem(11);
+        color: map.get(vars.$colors, 'muted');
+      }
+    }
+
+    .track-dur {
+      font-size: fn.rem(11);
+      color: map.get(vars.$colors, 'muted');
+    }
+  }
+}
+
+// Playlists page hero (50vh)
+.playlists-hero {
+  min-height: 50vh;
+  @extend %flex-center;
+  flex-direction: column;
+  gap: map.get(vars.$spacing, 'xl');
+  position: relative;
+  overflow: hidden;
+  padding: map.get(vars.$spacing, '3xl') map.get(vars.$spacing, 'xl');
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse at center top,
+      rgba(map.get(vars.$colors, 'purple'), 0.15) 0%,
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+
+  &__title {
+    font-family: #{map.get(vars.$fonts, 'heading')};
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    text-align: center;
+    color: map.get(vars.$colors, 'white');
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.85); }
+}
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.5); }
+  50%       { transform: scaleY(1); }
+}

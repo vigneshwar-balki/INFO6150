@@ -1,0 +1,56 @@
+// ============================================================
+// MIXINS — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use 'variables' as vars;
+
+// respond-to — media query helper using breakpoints map
+@mixin respond-to($bp) {
+  $value: map.get(vars.$breakpoints, $bp);
+  @if $value == null {
+    @warn "Breakpoint '#{$bp}' not found in $breakpoints map.";
+  } @else {
+    @media screen and (max-width: #{$value}) {
+      @content;
+    }
+  }
+}
+
+// flex-layout — flexible flex shorthand
+@mixin flex-layout($direction: row, $align: center, $justify: flex-start, $gap: 0) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
+  @if $gap != 0 {
+    gap: $gap;
+  }
+}
+
+// card-glow — colored box-shadow glow on hover
+@mixin card-glow($color, $intensity: 0.3) {
+  transition: box-shadow map.get(vars.$transitions, 'normal'),
+              transform map.get(vars.$transitions, 'normal');
+  &:hover {
+    box-shadow: 0 0 30px rgba($color, $intensity),
+                0 0 60px rgba($color, $intensity * 0.5);
+    transform: translateY(-4px);
+  }
+}
+
+// gradient-text — clip gradient to text
+@mixin gradient-text($from, $to, $direction: 135deg) {
+  background: linear-gradient(#{$direction}, #{$from}, #{$to});
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// glass-effect — frosted glass morphism
+@mixin glass-effect($blur: 12px, $opacity: 0.08) {
+  background: rgba(255, 255, 255, $opacity);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

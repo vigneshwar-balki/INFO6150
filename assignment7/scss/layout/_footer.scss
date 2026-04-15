@@ -1,0 +1,170 @@
+// ============================================================
+// FOOTER — Melodiq
+// ============================================================
+
+@use 'sass:map';
+@use '../abstracts/variables' as vars;
+@use '../abstracts/mixins' as mix;
+@use '../abstracts/functions' as fn;
+@use '../abstracts/placeholders' as ph;
+
+.footer {
+  background: map.get(vars.$colors, 'dark-card');
+  border-top: 1px solid map.get(vars.$colors, 'border');
+  padding: map.get(vars.$spacing, '3xl') map.get(vars.$spacing, 'xl') map.get(vars.$spacing, 'xl');
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: map.get(vars.$spacing, '2xl');
+    max-width: 1280px;
+    margin: 0 auto;
+
+    @include mix.respond-to('lg') {
+      grid-template-columns: 1fr 1fr;
+      gap: map.get(vars.$spacing, 'xl');
+    }
+
+    @include mix.respond-to('sm') {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__brand {
+    .footer__logo {
+      @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'sm'));
+      margin-bottom: map.get(vars.$spacing, 'md');
+
+      span {
+        font-family: #{map.get(vars.$fonts, 'heading')};
+        font-size: fn.rem(20);
+        font-weight: 800;
+        @include mix.gradient-text(
+          map.get(vars.$colors, 'pink'),
+          map.get(vars.$colors, 'purple')
+        );
+      }
+    }
+
+    .footer__tagline {
+      color: map.get(vars.$colors, 'muted');
+      font-size: fn.rem(14);
+      line-height: 1.7;
+      margin-bottom: map.get(vars.$spacing, 'lg');
+      max-width: 260px;
+    }
+
+    .footer__socials {
+      @include mix.flex-layout(row, center, flex-start, map.get(vars.$spacing, 'md'));
+
+      a {
+        @extend %flex-center;
+        width: 36px;
+        height: 36px;
+        border-radius: map.get(vars.$radii, 'md');
+        background: map.get(vars.$colors, 'border');
+        color: map.get(vars.$colors, 'muted');
+        transition: all map.get(vars.$transitions, 'fast');
+
+        &:hover {
+          background: map.get(vars.$colors, 'pink');
+          color: map.get(vars.$colors, 'white');
+          transform: translateY(-2px);
+        }
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+  &__col {
+    h4 {
+      font-family: #{map.get(vars.$fonts, 'heading')};
+      font-size: fn.rem(14);
+      font-weight: 700;
+      color: map.get(vars.$colors, 'white');
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: map.get(vars.$spacing, 'lg');
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: map.get(vars.$spacing, 'md');
+    }
+
+    a {
+      font-size: fn.rem(14);
+      color: map.get(vars.$colors, 'muted');
+      transition: color map.get(vars.$transitions, 'fast');
+
+      &:hover {
+        color: map.get(vars.$colors, 'white');
+      }
+    }
+  }
+
+  &__newsletter {
+    h4 {
+      font-family: #{map.get(vars.$fonts, 'heading')};
+      font-size: fn.rem(14);
+      font-weight: 700;
+      color: map.get(vars.$colors, 'white');
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: map.get(vars.$spacing, 'sm');
+    }
+
+    p {
+      font-size: fn.rem(13);
+      color: map.get(vars.$colors, 'muted');
+      margin-bottom: map.get(vars.$spacing, 'md');
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: map.get(vars.$spacing, 'sm');
+
+      input {
+        background: map.get(vars.$colors, 'card-surface');
+        border: 1px solid map.get(vars.$colors, 'border');
+        border-radius: map.get(vars.$radii, 'md');
+        padding: map.get(vars.$spacing, 'sm') map.get(vars.$spacing, 'md');
+        color: map.get(vars.$colors, 'white');
+        font-size: fn.rem(14);
+
+        &::placeholder {
+          color: map.get(vars.$colors, 'muted');
+        }
+
+        &:focus {
+          border-color: map.get(vars.$colors, 'pink');
+        }
+      }
+    }
+  }
+
+  &__bottom {
+    max-width: 1280px;
+    margin: map.get(vars.$spacing, '2xl') auto 0;
+    padding-top: map.get(vars.$spacing, 'lg');
+    border-top: 1px solid map.get(vars.$colors, 'border');
+    @include mix.flex-layout(row, center, space-between);
+
+    @include mix.respond-to('sm') {
+      flex-direction: column;
+      gap: map.get(vars.$spacing, 'sm');
+      text-align: center;
+    }
+
+    p {
+      font-size: fn.rem(13);
+      color: map.get(vars.$colors, 'muted');
+    }
+  }
+}
